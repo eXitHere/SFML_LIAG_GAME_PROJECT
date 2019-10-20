@@ -2,6 +2,7 @@
 #define START_TOP -300
 menu::menu(int* valMusic)
 {
+	//test comment
 	this->ValMusic = valMusic;
 	musicScrollBar.load(Vector2f(700, 300),*ValMusic);
 	effectScrollBar.load(Vector2f(700, 400), 0);

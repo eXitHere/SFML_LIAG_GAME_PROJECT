@@ -4,6 +4,7 @@
 class menu
 {
 public:
+	//testcommand
 	menu(int* valMusic);
 	void DRAW(RenderWindow* window,Event * event);
 	bool holdOn(Sprite* btn,Window *window,Event* event,int index);
