@@ -1,10 +1,10 @@
-#include"defineHead.h"
+﻿#include"defineHead.h"
 #include"scrollBar.h"
 
 class menu
 {
 public:
-	//testcommand
+	//testcommandasd
 	menu(int* valMusic);
 	void DRAW(RenderWindow* window,Event * event);
 	bool holdOn(Sprite* btn,Window *window,Event* event,int index);
