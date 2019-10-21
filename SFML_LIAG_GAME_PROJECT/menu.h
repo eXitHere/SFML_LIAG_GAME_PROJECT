@@ -5,11 +5,18 @@ class menu
 {
 public:
 	//testcommandasd
-	menu(int* valMusic);
+	menu(int* valMusic,int *valEffect);
 	void DRAW(RenderWindow* window,Event * event);
 	bool holdOn(Sprite* btn,Window *window,Event* event,int index);
+	int stateSonud_OnHold();
+	void setStop();
+
 private:
+	int temp_HoldOn = -1;
+	Clock _time_Clock;
+	int stateSoundd=-1;
 	int* ValMusic;
+	int* ValEffect;
 	int tempVal;
 	scrollBar musicScrollBar, effectScrollBar;
 	RenderWindow* window;

@@ -9,7 +9,10 @@ public:
 	void update();
 	void draw(RenderWindow *window);
 	void setName(String name);
+	void stopClick();
+	bool checkClick();
 private:
+	bool click;
 	Text name;
 	Font font;
 	Text valString;

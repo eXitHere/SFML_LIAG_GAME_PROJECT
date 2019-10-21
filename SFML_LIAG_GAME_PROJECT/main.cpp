@@ -5,8 +5,9 @@
 #include"Items.h"
 #include"hpAndHappyBar.h"
 #include"linklist.h"
-#include"menu.h"
 #include"soundPB.h"
+#include"menu.h"
+
 
 int main()
 {
@@ -23,14 +24,16 @@ int main()
 	bar.show();
 
 	int musicVal = 100;
-	menu Menu(&musicVal);
+	int effectVal = 100;
+	menu Menu(&musicVal,&effectVal);
 	soundPB PLAY;
-	
+	int *_countHoldOn;
 	
 	//Menu.manageSound(&mediaPlay);
 	while (window.isOpen())
 	{
 		PLAY.setVolMusic(musicVal);
+		PLAY.setVolEffect(effectVal);
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
@@ -45,6 +48,21 @@ int main()
 			bar.reduceHp(1);
 			testDownhp.restart();
 		}
+
+		switch (Menu.stateSonud_OnHold())
+		{
+		case 1 : PLAY._holdOnPlay();
+			Menu.setStop();
+			//cout << "Click in main!" << endl;
+			break;
+		case 2: PLAY._clickPlay();
+			Menu.setStop();
+			break;
+		default:
+			break;
+		}
+		
+
 		window.clear();
 		//map.DRAW(&window);
 		//bar.DRAW(&window);

@@ -1,9 +1,10 @@
 #include "menu.h"
 #define START_TOP -300
-menu::menu(int* valMusic)
+menu::menu(int* valMusic, int* valEffect)
 {
 	//test comment ///
 	this->ValMusic = valMusic;
+	this->ValEffect = valEffect;
 	musicScrollBar.load(Vector2f(700, 300),*ValMusic);
 	effectScrollBar.load(Vector2f(700, 400), 0);
 	font.loadFromFile("font\\impact.ttf");
@@ -93,6 +94,11 @@ void menu::DRAW(RenderWindow* window,Event *event)
 	display();
 	for (int i = 0; i < 4; i++)
 	{
+		if (holdOn(&button[i], window, event, i))
+		{
+			///***  == != *** === <<= ==>
+			this->stateSoundd = 1;
+		}
 		holdOn(&button[i], window, event, i);
 		window->draw(button[i]);
 	}
@@ -118,10 +124,20 @@ void menu::DRAW(RenderWindow* window,Event *event)
 		effectScrollBar.setName("Effect");
 		effectScrollBar.draw(window);
 		*(this->ValMusic) = musicScrollBar.getVal();
+		*(this->ValEffect) = effectScrollBar.getVal();
 		//this->soundManage->setVolMusic(musicScrollBar.getVal());
 		//cout << tempVal << endl;
+		if (effectScrollBar.checkClick())
+		{
+			this->stateSoundd = 2;
+		}
 	}
-	
+	cutSceen();
+	window->draw(right);
+	window->draw(left);
+	window->draw(top);
+	window->draw(down);
+	window->draw(TEXT);
 }
 
 bool menu::holdOn(Sprite* btn, Window* window,Event* event,int index)
@@ -129,13 +145,21 @@ bool menu::holdOn(Sprite* btn, Window* window,Event* event,int index)
 	
 	if ((*event).type == Event::MouseMoved)
 	{
-		if (index != this->stateHold) (*btn).setScale(1.0f, 1.0f);
+		if (index != this->stateHold)
+		{
+			//cout << "Reset" << endl;
+			(*btn).setScale(1.0f, 1.0f);
+		}
+	
 		//cout << Mouse::getPosition(*window).x << endl;
 		//cout << "Mouse : " << Mouse::getPosition(window).x << " Click " << testMouse.getPosition().x << endl;
 		if (this->stateHold != index && Mouse::getPosition(*window).x <= (*btn).getPosition().x + 300 && Mouse::getPosition(*window).y <= (*btn).getPosition().y + 119
 			&& Mouse::getPosition(*window).x >= (*btn).getPosition().x && Mouse::getPosition(*window).y >= (*btn).getPosition().y)
 		{
-			
+			//this->stateSoundd++;
+			//cout << "Set" << endl;
+			//cout << "OnHold" << endl;
+			//cout << this->stateSoundd << endl;
 			//cout << "Check" << endl;
 			(*btn).setScale(1.1f, 1.1f);
 			this->stateHold = index;
@@ -147,9 +171,26 @@ bool menu::holdOn(Sprite* btn, Window* window,Event* event,int index)
 		&& Mouse::getPosition(*window).x >= (*btn).getPosition().x && Mouse::getPosition(*window).y >= (*btn).getPosition().y && statePage_ != index)
 	{
 		this->statePage_ = index;
+		
 		//cout << "Click" << index << endl;
 	}
+	else if (Mouse::isButtonPressed(Mouse::Left) && Mouse::getPosition(*window).x <= (*btn).getPosition().x + 300 && Mouse::getPosition(*window).y <= (*btn).getPosition().y + 119
+		&& Mouse::getPosition(*window).x >= (*btn).getPosition().x && Mouse::getPosition(*window).y >= (*btn).getPosition().y)
+	{
+		this->stateSoundd = 2;
+	}
 	return 0;
+}
+
+int menu::stateSonud_OnHold()
+{
+	 return this->stateSoundd;
+}
+
+void menu::setStop()
+{
+	this->stateSoundd = 0;
+	effectScrollBar.stopClick();
 }
 
 
@@ -361,12 +402,7 @@ void menu::mapPlayBack(RenderWindow* window)
 	}
 	this->onLoadButton();
 	//logoMovement();
-	cutSceen();
-	window->draw(right);
-	window->draw(left);
-	window->draw(top);
-	window->draw(down);
-	window->draw(TEXT);
+	
 }
 
 void menu::display()

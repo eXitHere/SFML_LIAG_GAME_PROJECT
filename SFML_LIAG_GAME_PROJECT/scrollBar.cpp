@@ -84,6 +84,16 @@ void scrollBar::setName(String name)
 	this->name.setString(name);
 }
 
+void scrollBar::stopClick()
+{
+	this->click = false;
+}
+
+bool scrollBar::checkClick()
+{
+	return this->click;
+}
+
 void scrollBar::holdOn(RenderWindow* window) 
 {
 	mouseHoldOn(window);
@@ -105,6 +115,8 @@ void scrollBar::holdOn(RenderWindow* window)
 		//cout << ((Mouse::getPosition(*window).x - L) * 100 / (R - L)) << endl;
 		if(Mouse::getPosition(*window).x+10<=R && Mouse::getPosition(*window).x+10>=L)
 		this->setVal((int)(Mouse::getPosition(*window).x+10 - L) * 100 / (R - L));
+		this->click = true;
+		cout << "click" << endl;
 	}
 	
 }
@@ -124,6 +136,8 @@ void scrollBar::mouseHoldOn(RenderWindow* window)
 				setVal(--val);
 				delta = (delta > 0.02 ? delta - 0.1 : 0.02);
 			}
+			this->click = true;
+			cout << "click" << endl;
 		}
 	}
 	else if (Mouse::getPosition(*window).x <= (this->btnP).getPosition().x + 50 && Mouse::getPosition(*window).y <= (this->btnP).getPosition().y + 50
@@ -139,6 +153,8 @@ void scrollBar::mouseHoldOn(RenderWindow* window)
 				setVal(++val);
 				delta = (delta > 0.02 ? delta - 0.1 : 0.02);
 			}
+			this->click = true;
+			cout << "click" << endl;
 		}
 	}
 	else if (Mouse::getPosition(*window).x <= (this->btnM).getPosition().x + 50 && Mouse::getPosition(*window).y <= (this->btnM).getPosition().y + 50
@@ -154,6 +170,8 @@ void scrollBar::mouseHoldOn(RenderWindow* window)
 				setVal(0);
 			}
 			else setVal(50);
+			this->click = true;
+			cout << "click" << endl;
 		}
 
 		if (mute)
