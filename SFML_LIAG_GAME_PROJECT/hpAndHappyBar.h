@@ -27,5 +27,7 @@ private:
 	Sprite gridTop;
 	Sprite gridDown;
 	bool onSlide = false;
+	Clock clock;
+	float Delay = 0.0;
 };
 

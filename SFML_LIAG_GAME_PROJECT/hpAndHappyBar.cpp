@@ -93,13 +93,17 @@ void hpAndHappyBar::show()
 		//this->lop.move(0, 59.0/ (D / 2));
 		if (gridDown.getPosition().y == 750) 
 		{
-			onSlide = false;
-			this->valHP.setPosition(90.0f, 58.5f);
-			this->valHappy.setPosition(520.0f, 59.0f);
-			this->hpHappyBar.setPosition(10.0f, 15.0f);
-			//this->hpHappyBar.setPosition(10.0f, -15.0f);
-			this->lop2.setPosition(90.0f, 58.5f);
-			this->lop.setPosition(520.0f, 59.0f);
+			Delay += clock.restart().asSeconds();
+			if (Delay > 2)
+			{
+				onSlide = false;
+				this->valHP.setPosition(90.0f, 58.5f);
+				this->valHappy.setPosition(520.0f, 59.0f);
+				this->hpHappyBar.setPosition(10.0f, 15.0f);
+				//this->hpHappyBar.setPosition(10.0f, -15.0f);
+				this->lop2.setPosition(90.0f, 58.5f);
+				this->lop.setPosition(520.0f, 59.0f);
+			}
 		}
 	}
 }

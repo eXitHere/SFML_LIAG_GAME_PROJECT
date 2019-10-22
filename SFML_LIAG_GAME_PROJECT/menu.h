@@ -10,7 +10,7 @@ public:
 	bool holdOn(Sprite* btn,Window *window,Event* event,int index);
 	int stateSonud_OnHold();
 	void setStop();
-
+	bool gameStart();
 private:
 	int temp_HoldOn = -1;
 	Clock _time_Clock;
@@ -44,15 +44,6 @@ private:
 	Texture backgroundTexture;
 	bool stateMove = false;
 	void moveButton();
-	Texture RIGHT, LEFT;
-	Sprite right, left;
-	Texture _TOP, _DOWN;
-	Sprite top, down;
-	Clock clock;
-	int R = -800, L = 1600;
-	void cutSceen();
-	bool cutSceenState = false;
-	bool offCutSceenState = false;
 	Texture logoGame;
 	Sprite logoGameSprite;
 	void logoMovement();
@@ -70,5 +61,6 @@ private:
 	Texture scoreTexture;
 	Sprite settingBackground;
 	Texture settingTexture;
+	bool __START = false;
 };
 

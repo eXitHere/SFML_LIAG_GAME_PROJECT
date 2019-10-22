@@ -10,6 +10,8 @@ soundPB::soundPB()
 	this->_holdOnSound.setBuffer(_holdOnBuffer);
 	this->_clickBuffer.loadFromFile("music\\effect\\beep.ogg");
 	this->_clickSound.setBuffer(_clickBuffer);
+	this->_clockBuffer.loadFromFile("music\\effect\\clock.wav");
+	this->_clockSound.setBuffer(_clockBuffer);
 }
 
 void soundPB::setVolMusic(int val)
@@ -31,6 +33,27 @@ void soundPB::_clickPlay()
 	{
 		_clickSound.play();
 		//	cout << "Click" << endl;
+	}
+}
+
+void soundPB::_clockPlay()
+{
+	while (_clockSound.getStatus() != Sound::Status::Playing)
+	{
+		this->_clockSound.play();
+		//	cout << "Click" << endl;
+	}
+}
+
+void soundPB::setSoundBG(int val)
+{
+	if (val)
+	{
+		this->musicBackground.play();
+	}
+	else
+	{
+		this->musicBackground.pause();
 	}
 }
 

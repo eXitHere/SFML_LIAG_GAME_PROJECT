@@ -5,8 +5,8 @@ menu::menu(int* valMusic, int* valEffect)
 	//test comment ///
 	this->ValMusic = valMusic;
 	this->ValEffect = valEffect;
-	musicScrollBar.load(Vector2f(700, 300),*ValMusic);
-	effectScrollBar.load(Vector2f(700, 400), 0);
+	musicScrollBar.load(Vector2f(700, 300),*this->ValMusic);
+	effectScrollBar.load(Vector2f(700, 400), *this->ValEffect);
 	font.loadFromFile("font\\impact.ttf");
 	scoreTexture.loadFromFile("texture\\menu\\scoreBackground.png");
 	scoreBackground.setTexture(scoreTexture);
@@ -61,19 +61,6 @@ menu::menu(int* valMusic, int* valEffect)
 		this->button[i].setPosition(200,START_TOP);
 	}
 
-	this->RIGHT.loadFromFile("texture\\menu\\cut_L.png");
-	this->LEFT.loadFromFile("texture\\menu\\cut_R.png");
-	this->right.setTexture(RIGHT);
-	this->left.setTexture(LEFT);
-	this->right.setPosition(-800, 0);
-	this->left.setPosition(1600, 0);
-	this->top.setPosition(0, -450);
-	this->down.setPosition(0, 900);
-	this->_DOWN.loadFromFile("texture\\menu\\cut_down-01.png");
-	this->_TOP.loadFromFile("texture\\menu\\cut_top-01.png");
-	this->top.setTexture(_TOP);
-	this->down.setTexture(_DOWN);
-
 	this->logoGame.loadFromFile("texture\\menu\\logogame.png");
 	this->logoGameSprite.setTexture(logoGame);
 	this->logoGameSprite.setPosition(850, 100);
@@ -84,11 +71,6 @@ menu::menu(int* valMusic, int* valEffect)
 void menu::DRAW(RenderWindow* window,Event *event)
 {
 	this->window = window;
-	if (Keyboard::isKeyPressed(Keyboard::C) && !cutSceenState)
-	{
-		this->cutSceenState = true;
-		//cout << "CutSceenState " << this->cutSceenState << endl;
-	}
 	//cout << left.getPosition().x << " - " << left.getPosition().y << endl;
 	mapPlayBack(window);
 	display();
@@ -103,7 +85,8 @@ void menu::DRAW(RenderWindow* window,Event *event)
 		window->draw(button[i]);
 	}
 	moveButton();
-	if (statePage_ == 1)
+
+	 if (statePage_ == 1)
 	{
 		window->draw(scoreBackground);
 		for (int i = 0; i < 5; i++)
@@ -132,11 +115,6 @@ void menu::DRAW(RenderWindow* window,Event *event)
 			this->stateSoundd = 2;
 		}
 	}
-	cutSceen();
-	window->draw(right);
-	window->draw(left);
-	window->draw(top);
-	window->draw(down);
 	window->draw(TEXT);
 }
 
@@ -168,11 +146,16 @@ bool menu::holdOn(Sprite* btn, Window* window,Event* event,int index)
 		}
 	}
 	if (Mouse::isButtonPressed(Mouse::Left)  && Mouse::getPosition(*window).x <= (*btn).getPosition().x + 300 && Mouse::getPosition(*window).y <= (*btn).getPosition().y + 119
-		&& Mouse::getPosition(*window).x >= (*btn).getPosition().x && Mouse::getPosition(*window).y >= (*btn).getPosition().y && statePage_ != index)
+		&& Mouse::getPosition(*window).x >= (*btn).getPosition().x && Mouse::getPosition(*window).y >= (*btn).getPosition().y &&( statePage_ != index|| index==0))
 	{
 		this->statePage_ = index;
-		
+	//	cout << index << endl;
 		//cout << "Click" << index << endl;
+		if (index == 0)
+		{
+			this->__START = true;
+			this->stateSoundd = 2;
+		}
 	}
 	else if (Mouse::isButtonPressed(Mouse::Left) && Mouse::getPosition(*window).x <= (*btn).getPosition().x + 300 && Mouse::getPosition(*window).y <= (*btn).getPosition().y + 119
 		&& Mouse::getPosition(*window).x >= (*btn).getPosition().x && Mouse::getPosition(*window).y >= (*btn).getPosition().y)
@@ -191,6 +174,12 @@ void menu::setStop()
 {
 	this->stateSoundd = 0;
 	effectScrollBar.stopClick();
+}
+
+bool menu::gameStart()
+{
+	//cout << this->statePage_ << endl;
+	return this-> __START;
 }
 
 
@@ -252,47 +241,6 @@ void menu::moveButton()
 		//cout << button[i].getPosition().x << " STATE : " << this->stateMove << endl;
 		if (this->button[0].getPosition().x == 250 && this->stateMove) this->stateMove = false;
 		if (this->button[0].getPosition().x == 150 && !this->stateMove) this->stateMove = true;
-}
-
-void menu::cutSceen()
-{
-	if(right.getPosition().x<0 && cutSceenState && !offCutSceenState){
-		
-		right.setPosition(R, 0);
-		left.setPosition(L, 0);
-		R+=20;
-		L-=20;
-		if (right.getPosition().x >= 0)
-		{
-			clock.restart();
-			offCutSceenState = true;
-			right.setPosition(-800, 0);
-			left.setPosition(1600, 0);
-			top.setPosition(0, 0);
-			down.setPosition(0, 450);
-			R = 0;
-			L = 450;
-		}
-	}
-	else if(offCutSceenState && cutSceenState)
-	{
-		if (clock.getElapsedTime().asSeconds() > 1.5)
-		{
-			top.setPosition(0, R);
-			down.setPosition(0, L);
-			R -= 20;
-			L += 20;
-		}
-		//cout << down.getPosition().y << endl;
-		if (down.getPosition().y > 900)
-		{
-			//cout << "STOP" << endl;
-			R = -800;
-			L = 1600;
-			cutSceenState = false;
-			offCutSceenState = false;
-		}
-	}
 }
 
 void menu::logoMovement()

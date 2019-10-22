@@ -48,6 +48,9 @@
     <ClCompile Include="soundPB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cutSceen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defineHead.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="soundPB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cutSceen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

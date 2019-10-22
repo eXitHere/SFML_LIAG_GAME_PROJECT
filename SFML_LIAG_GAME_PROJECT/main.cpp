@@ -7,7 +7,7 @@
 #include"linklist.h"
 #include"soundPB.h"
 #include"menu.h"
-
+#include"cutSceen.h"
 
 int main()
 {
@@ -28,7 +28,11 @@ int main()
 	menu Menu(&musicVal,&effectVal);
 	soundPB PLAY;
 	int *_countHoldOn;
-	
+	cutSceen cutsceen;
+	Clock clock;
+	float timeDelay = 0;
+	float timeDelay_Countdown;
+	int __StateMain = 0;
 	//Menu.manageSound(&mediaPlay);
 	while (window.isOpen())
 	{
@@ -64,13 +68,81 @@ int main()
 		
 
 		window.clear();
-		//map.DRAW(&window);
-		//bar.DRAW(&window);
-		//item.DRAW(&window);
-		//test.DRAW(&window);
-		//biker.Draw(&window);
-		//player.DRAW(&window);
-		Menu.DRAW(&window, &event);
+		
+		if (Menu.gameStart() && __StateMain==0)
+		{
+			PLAY.setSoundBG(false);
+			timeDelay_Countdown += clock.restart().asSeconds();
+			if (timeDelay_Countdown >= 1)
+			{
+				PLAY._clockPlay();
+				timeDelay_Countdown = 0;
+			}
+			
+			/*timeDelay += clock.restart().asSeconds();
+			cutsceen.onCutSceen();
+			if (timeDelay < 5)
+			{
+				map.DRAW(&window);
+				bar.DRAW(&window);
+				Menu.DRAW(&window, &event);
+			}
+			else
+			{
+				map.DRAW(&window);
+				bar.DRAW(&window);
+				item.DRAW(&window);
+				test.DRAW(&window);
+				biker.Draw(&window);
+				player.DRAW(&window);
+			}
+			*/
+			cutsceen.onCutSceen();
+			__StateMain = 1;
+			
+		}
+		else if (__StateMain == 1)
+		{
+			timeDelay_Countdown += clock.restart().asSeconds();
+			if (timeDelay_Countdown >= 1)
+			{
+				PLAY._clockPlay();
+				timeDelay_Countdown = 0;
+			}
+			map.DRAW(&window);
+			bar.DRAW(&window);
+			Menu.DRAW(&window, &event);
+			cutsceen.DRAW(&window);
+			__StateMain = cutsceen.getState();
+			//cout << __StateMain << endl;
+			//cout << "Error!" << endl;
+		}
+		else if (__StateMain == 2)
+		{
+			timeDelay_Countdown += clock.restart().asSeconds();
+			if (timeDelay_Countdown >= 1)
+			{
+				PLAY._clockPlay();
+				timeDelay_Countdown = 0;
+			}
+			map.DRAW(&window);
+			bar.DRAW(&window);
+			cutsceen.DRAW(&window);
+			__StateMain = cutsceen.getState();
+			PLAY.setSoundBG(true);
+			//cout << __StateMain << endl;
+		}
+		else if (__StateMain == 3) // playGame !!
+		{
+			map.DRAW(&window);
+			bar.DRAW(&window);
+			item.DRAW(&window);
+			test.DRAW(&window);
+			biker.Draw(&window);
+			player.DRAW(&window);
+		}
+		else Menu.DRAW(&window, &event);
+		//cout << Menu.gameStart() << endl;
 		window.display();
 	}
 }
