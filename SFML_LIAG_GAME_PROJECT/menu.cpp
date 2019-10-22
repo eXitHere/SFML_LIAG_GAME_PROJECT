@@ -5,7 +5,9 @@ menu::menu(int* valMusic, int* valEffect)
 	//test comment ///
 	this->ValMusic = valMusic;
 	this->ValEffect = valEffect;
-	musicScrollBar.load(Vector2f(700, 300),*this->ValMusic);
+	this->tempEffect = *valEffect;
+	this->tempMusic = *valMusic;
+	musicScrollBar.load(Vector2f(700, 300), *this->ValMusic);
 	effectScrollBar.load(Vector2f(700, 400), *this->ValEffect);
 	font.loadFromFile("font\\impact.ttf");
 	scoreTexture.loadFromFile("texture\\menu\\scoreBackground.png");
@@ -65,8 +67,17 @@ menu::menu(int* valMusic, int* valEffect)
 	this->logoGameSprite.setTexture(logoGame);
 	this->logoGameSprite.setPosition(850, 100);
 	this->logoGameSprite.setRotation(1);
-}
 
+	//btn save cancel
+	this->cancelTexture.loadFromFile("texture\\menu\\cancel.png");
+	this->cancelHoldOnTexture.loadFromFile("texture\\menu\\cancelOn.png");
+	this->saveHoldOnTexture.loadFromFile("texture\\menu\\saveOn.png");
+	this->saveTexture.loadFromFile("texture\\menu\\save.png");
+	this->cancelBtn.setTexture(cancelTexture);
+	this->saveBtn.setTexture(saveTexture);
+	this->saveBtn.setPosition(1270, 635);
+	this->cancelBtn.setPosition(1380, 635);
+}
 
 void menu::DRAW(RenderWindow* window,Event *event)
 {
@@ -105,17 +116,28 @@ void menu::DRAW(RenderWindow* window,Event *event)
 		musicScrollBar.setName("Music");
 		musicScrollBar.draw(window);
 		effectScrollBar.setName("Effect");
-		effectScrollBar.draw(window);
+		effectScrollBar.draw(window);	
 		*(this->ValMusic) = musicScrollBar.getVal();
 		*(this->ValEffect) = effectScrollBar.getVal();
+		if (this->tempMusic != *(this->ValMusic) || this->tempEffect != *(this->ValEffect))
+		{
+			VALCHECAGE = true;
+		}
 		//this->soundManage->setVolMusic(musicScrollBar.getVal());
 		//cout << tempVal << endl;
 		if (effectScrollBar.checkClick())
 		{
 			this->stateSoundd = 2;
 		}
+		if (saveHold) saveBtn.setTexture(saveHoldOnTexture);
+		else saveBtn.setTexture(saveTexture);
+		if (cancelHold) cancelBtn.setTexture(cancelHoldOnTexture);
+		else cancelBtn.setTexture(cancelTexture);
+		checkSaveBtn();
+		window->draw(saveBtn);
+		window->draw(cancelBtn);
 	}
-	window->draw(TEXT);
+	//window->draw(TEXT);
 }
 
 bool menu::holdOn(Sprite* btn, Window* window,Event* event,int index)
@@ -182,6 +204,10 @@ bool menu::gameStart()
 	return this-> __START;
 }
 
+void menu::changeSetting(bool* stateSave)
+{
+	this->valChange = stateSave;
+}
 
 void menu::onLoadButton()
 {
@@ -351,6 +377,45 @@ void menu::mapPlayBack(RenderWindow* window)
 	this->onLoadButton();
 	//logoMovement();
 	
+}
+
+void menu::checkSaveBtn()
+{
+	if (statePage_ == 2)
+	{
+		if (Mouse::getPosition(*window).x <= (saveBtn).getPosition().x + 100 && Mouse::getPosition(*window).y <= (saveBtn).getPosition().y + 50
+			&& Mouse::getPosition(*window).x >= (saveBtn).getPosition().x && Mouse::getPosition(*window).y >= (saveBtn).getPosition().y)
+		{
+			if (Mouse::isButtonPressed(Mouse::Left) && VALCHECAGE)
+			{
+				*this->valChange = false;
+				VALCHECAGE = false;
+				// update temp
+				this->tempEffect = *ValEffect;
+				this->tempMusic = *ValMusic;
+			//	cout << "save" << endl;
+				//
+			}
+			this->saveHold = true;
+			
+		}
+		else if (Mouse::getPosition(*window).x <= (cancelBtn).getPosition().x + 100 && Mouse::getPosition(*window).y <= (cancelBtn).getPosition().y + 50
+			&& Mouse::getPosition(*window).x >= (cancelBtn).getPosition().x && Mouse::getPosition(*window).y >= (cancelBtn).getPosition().y)
+		{
+			if (Mouse::isButtonPressed(Mouse::Left) && this->VALCHECAGE)
+			{
+				VALCHECAGE = false;
+				*ValEffect = this->tempEffect;
+				*ValMusic = this->tempMusic;
+				this->musicScrollBar.setVal(*ValMusic);
+				this->effectScrollBar.setVal(*ValEffect);
+				//cout << "cancel Click" << endl;
+			}
+			this->cancelHold = true;
+			//cout << "cancel" << endl;
+		}
+		else this->saveHold = this->cancelHold = false;
+	}
 }
 
 void menu::display()

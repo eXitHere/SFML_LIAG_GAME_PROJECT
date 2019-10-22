@@ -11,6 +11,7 @@ public:
 	int stateSonud_OnHold();
 	void setStop();
 	bool gameStart();
+	void changeSetting(bool* stateSave);
 private:
 	int temp_HoldOn = -1;
 	Clock _time_Clock;
@@ -61,6 +62,20 @@ private:
 	Texture scoreTexture;
 	Sprite settingBackground;
 	Texture settingTexture;
+	Texture saveHoldOnTexture;
+	Texture saveTexture;
+	Texture cancelHoldOnTexture;
+	Texture cancelTexture;
+	Sprite saveBtn;
+	Sprite cancelBtn;
+	bool saveHold = false;
+	bool cancelHold = false;
+	bool saveState = false;
+	bool* valChange = false;
+	bool VALCHECAGE = false;
+	void checkSaveBtn();
+	int tempMusic;
+	int tempEffect;
 	bool __START = false;
 };
 

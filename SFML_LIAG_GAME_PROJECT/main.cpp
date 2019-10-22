@@ -8,9 +8,44 @@
 #include"soundPB.h"
 #include"menu.h"
 #include"cutSceen.h"
+#include"ReadWriteFile.h"
+
+void loadSetting(string data,int *valMusic,int *valEffect)
+{
+	int music, effect;
+	int stateSetting = 0;
+	string temp1;
+	int temp;
+	for (int i = 0; i < data.length(); i++)
+	{
+		if (data[i] == '|' || data[i+1] == '\0')
+		{
+			if (data[i + 1] == '\0') temp1 += data[i];
+			temp = stoi(temp1);
+			switch (stateSetting)
+			{
+			case 0:
+				*valMusic = temp;
+				break;
+			case 1:
+				*valEffect = temp;
+				break;
+			}
+			temp1 = "";
+			stateSetting++;
+		//	cout << temp << endl;
+		}
+		else
+		{
+			temp1 += data[i];
+		}	
+	}
+	//cout << temp;
+}
 
 int main()
 {
+	
 	RenderWindow window(VideoMode(size_Width, size_Height), name_Title, Style::Close);
 	window.setFramerateLimit(frameRateLimit);
 	Clock testDownhp;
@@ -21,12 +56,30 @@ int main()
 	Biker biker;
 	kickBall test;
 	Items item;
-	bar.show();
+
+	// ReadWriteFile
+	ReadWriteFile scoreFile(scoreTxt),settingFile(settingTxt);
+	//scoreFile.Write("Test555555");
+	//cout << scoreFile.Read();
+	//cout << settingFile.Read();
+	//
+
+
+	// Sound
 
 	int musicVal = 100;
 	int effectVal = 100;
-	menu Menu(&musicVal,&effectVal);
+	loadSetting(settingFile.Read(), &musicVal,&effectVal);
+	//menu
+	String temp;
+	bool saveSetting=false;
+	menu Menu(&musicVal, &effectVal);
+	Menu.changeSetting(&saveSetting);
 	soundPB PLAY;
+
+	// 
+	bar.show();
+
 	int *_countHoldOn;
 	cutSceen cutsceen;
 	Clock clock;
@@ -38,6 +91,14 @@ int main()
 	{
 		PLAY.setVolMusic(musicVal);
 		PLAY.setVolEffect(effectVal);
+		if (saveSetting)
+		{
+			temp = to_string(musicVal) + "|" + to_string(effectVal);
+			settingFile.Write(temp);
+			//cout << temp << endl;
+			saveSetting = false;
+			//cout << "save!" << endl;
+		}
 		while (window.pollEvent(event))
 		{
 			if (event.type == Event::Closed)
@@ -101,7 +162,7 @@ int main()
 			__StateMain = 1;
 			
 		}
-		else if (__StateMain == 1)
+		else if (__StateMain == 1) // Step 1
 		{
 			timeDelay_Countdown += clock.restart().asSeconds();
 			if (timeDelay_Countdown >= 1)
@@ -143,6 +204,7 @@ int main()
 		}
 		else Menu.DRAW(&window, &event);
 		//cout << Menu.gameStart() << endl;
+		//Menu.DRAW(&window, &event);
 		window.display();
 	}
 }

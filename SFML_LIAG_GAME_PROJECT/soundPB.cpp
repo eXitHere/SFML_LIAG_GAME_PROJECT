@@ -5,7 +5,6 @@ soundPB::soundPB()
 	musicBackground.openFromFile("music\\menu\\bg_menu.ogg");
 	musicBackground.setLoop(true);
 	musicBackground.play();
-
 	this->_holdOnBuffer.loadFromFile("music\\effect\\click.wav");
 	this->_holdOnSound.setBuffer(_holdOnBuffer);
 	this->_clickBuffer.loadFromFile("music\\effect\\beep.ogg");

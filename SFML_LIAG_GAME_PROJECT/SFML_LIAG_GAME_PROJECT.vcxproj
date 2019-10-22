@@ -139,6 +139,7 @@
     <ClCompile Include="kickBall.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="ReadWriteFile.cpp" />
     <ClCompile Include="scrollBar.cpp" />
     <ClCompile Include="soundPB.cpp" />
   </ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="kickBall.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="ReadWriteFile.h" />
     <ClInclude Include="scrollBar.h" />
     <ClInclude Include="soundPB.h" />
   </ItemGroup>

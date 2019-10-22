@@ -13,3 +13,5 @@ using namespace sf;
 #define TOP 120
 #define DOWN 750
 #define baseFloor DOWN-10
+#define scoreTxt "database\\score.txt"
+#define settingTxt "database\\setting.txt"
