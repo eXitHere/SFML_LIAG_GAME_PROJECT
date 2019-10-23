@@ -19,20 +19,20 @@ menu::menu(int* valMusic, int* valEffect)
 	for (int i = 0; i < 5; i++)
 	{
 		score_Show[i].setFont(font);
-		score_Show[i].setString("Name");
+		score_Show[i].setString("name");
 		score_Show[i].setCharacterSize(60);
-		score_Show[i].setFillColor(Color::Red);
+		score_Show[i].setFillColor(Color::Magenta);
 		score_Show[i].setStyle(sf::Text::Bold);
-		score_Show[i].setPosition(700, position_Score[i]); // name_Show
+		score_Show[i].setPosition(1200, position_Score[i]); // name_Show
 	}
 	for (int i = 0; i < 5; i++)
 	{
 		name_Show[i].setFont(font);
-		name_Show[i].setString("Score");
+		name_Show[i].setString("score");
 		name_Show[i].setCharacterSize(60);
 		name_Show[i].setFillColor(Color::Green);
 		name_Show[i].setStyle(sf::Text::Bold);
-		name_Show[i].setPosition(1200, position_Score[i]); // name_Show
+		name_Show[i].setPosition(700, position_Score[i]); // name_Show
 	}
 	//this->backgroundTexture.loadFromFile("texture\\menu\\bg_main.png");
 	//this->background.setTexture(backgroundTexture);
@@ -207,6 +207,15 @@ bool menu::gameStart()
 void menu::changeSetting(bool* stateSave)
 {
 	this->valChange = stateSave;
+}
+
+void menu::updateScore(string* name, int* score)
+{
+	for (int i = 0; i < 5; i++,name++,score++)
+	{
+		this->name_Show[i].setString(*name);
+		this->score_Show[i].setString(to_string(*score));
+	}
 }
 
 void menu::onLoadButton()
@@ -388,7 +397,7 @@ void menu::checkSaveBtn()
 		{
 			if (Mouse::isButtonPressed(Mouse::Left) && VALCHECAGE)
 			{
-				*this->valChange = false;
+				*this->valChange = true;
 				VALCHECAGE = false;
 				// update temp
 				this->tempEffect = *ValEffect;

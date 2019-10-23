@@ -171,7 +171,7 @@ void scrollBar::mouseHoldOn(RenderWindow* window)
 			}
 			else setVal(50);
 			this->click = true;
-			cout << "click" << endl;
+			//cout << "click" << endl;
 		}
 
 		if (mute)

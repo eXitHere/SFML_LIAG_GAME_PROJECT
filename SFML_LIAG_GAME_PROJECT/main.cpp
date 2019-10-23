@@ -12,7 +12,6 @@
 
 void loadSetting(string data,int *valMusic,int *valEffect)
 {
-	int music, effect;
 	int stateSetting = 0;
 	string temp1;
 	int temp;
@@ -42,21 +41,70 @@ void loadSetting(string data,int *valMusic,int *valEffect)
 	}
 	//cout << temp;
 }
+void loadScore(string data,string* name,int* Score)
+{
+	int temp_int;
+	string temp_string;
+	string temp2_string;
+	string temp3_string;
+	int state_score = 0;
+	for (int i = 0; i<data.length(); i++)
+	{
+		if (data[i] == '|' || data[i + 1] == '\0')
+		{
+			if (data[i + 1] == '\0') temp_string += data[i];
+			temp_string += '\0';
+			for (int j = 0; j < temp_string.length() ; j++)
+			{
+				//cout << j << " ";
+				if (temp_string[j] == '_') {
+					//cout << "size temp : " << temp_string.length() << endl;
+					//cout << "J: " << j << endl;
+					for (int k = j + 1; k < temp_string.length(); k++)
+					{
+						//cout << " K " << k << endl;
+						temp3_string += temp_string[k];
+					}
+					break;
+				}
+				else
+				{
+					temp2_string += temp_string[j];
+				}
+			}
+			//cout << temp_string << endl;
+			//cout << temp2_string << " " << temp3_string << endl;
+			*name = temp2_string;
+			*Score = stoi(temp3_string);
+			name++;
+			Score++;
+			temp2_string = "";
+			temp3_string = "";
+			temp_string = "";
+		}
+		else temp_string += data[i];
+	}
+}
+void manageMap()
+{
+
+}
 
 int main()
-{
-	
+{	
 	RenderWindow window(VideoMode(size_Width, size_Height), name_Title, Style::Close);
 	window.setFramerateLimit(frameRateLimit);
 	Clock testDownhp;
 	hpAndHappyBar bar;
 	Player player;
 	Event event;
-	Map map;
 	Biker biker;
 	kickBall test;
 	Items item;
 
+	Map map1(map1Load);
+	Map map2(map2Load);
+	bool map2LOAD = false;
 	// ReadWriteFile
 	ReadWriteFile scoreFile(scoreTxt),settingFile(settingTxt);
 	//scoreFile.Write("Test555555");
@@ -75,6 +123,14 @@ int main()
 	bool saveSetting=false;
 	menu Menu(&musicVal, &effectVal);
 	Menu.changeSetting(&saveSetting);
+	string name_Score[5];
+	int int_Score[5];
+	loadScore(scoreFile.Read(), name_Score, int_Score);
+	Menu.updateScore(name_Score, int_Score);
+	/*for (int i = 0; i < 5; i++)
+	{
+		cout << name_Score[i] << " " << int_Score[i] << endl;
+	}*/
 	soundPB PLAY;
 
 	// 
@@ -89,6 +145,11 @@ int main()
 	//Menu.manageSound(&mediaPlay);
 	while (window.isOpen())
 	{
+		if (map1.loadNewMap())
+		{
+			cout << "Load map mai I sas !" << endl;
+			map2LOAD = true;
+		}
 		PLAY.setVolMusic(musicVal);
 		PLAY.setVolEffect(effectVal);
 		if (saveSetting)
@@ -170,7 +231,7 @@ int main()
 				PLAY._clockPlay();
 				timeDelay_Countdown = 0;
 			}
-			map.DRAW(&window);
+			map1.DRAW(&window);
 			bar.DRAW(&window);
 			Menu.DRAW(&window, &event);
 			cutsceen.DRAW(&window);
@@ -186,7 +247,7 @@ int main()
 				PLAY._clockPlay();
 				timeDelay_Countdown = 0;
 			}
-			map.DRAW(&window);
+			map1.DRAW(&window);
 			bar.DRAW(&window);
 			cutsceen.DRAW(&window);
 			__StateMain = cutsceen.getState();
@@ -195,7 +256,8 @@ int main()
 		}
 		else if (__StateMain == 3) // playGame !!
 		{
-			map.DRAW(&window);
+			if (map2LOAD) map2.DRAW(&window);
+			map1.DRAW(&window);
 			bar.DRAW(&window);
 			item.DRAW(&window);
 			test.DRAW(&window);

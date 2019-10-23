@@ -12,6 +12,7 @@ public:
 	void setStop();
 	bool gameStart();
 	void changeSetting(bool* stateSave);
+	void updateScore(string* name, int* score);
 private:
 	int temp_HoldOn = -1;
 	Clock _time_Clock;
@@ -23,9 +24,9 @@ private:
 	RenderWindow* window;
 	Text TEXT;
 	Text name_Show[5];
-	int position_Name[5] = { 260,340,430,520,610 };
+	int position_Name[5] = { 260,350,440,530,620 };
 	Text score_Show[5];
-	int position_Score[5] = { 260,340,430,520,610 };
+	int position_Score[5] = { 260,350,440,530,620 };
 	Font font;
 	Sprite testbutton;
 	Texture testTexture;

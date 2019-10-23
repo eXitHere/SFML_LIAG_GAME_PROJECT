@@ -15,3 +15,6 @@ using namespace sf;
 #define baseFloor DOWN-10
 #define scoreTxt "database\\score.txt"
 #define settingTxt "database\\setting.txt"
+
+#define map1Load "texture\\map\\map0-01.jpg"
+#define map2Load "texture\\map\\map1-01.jpg"

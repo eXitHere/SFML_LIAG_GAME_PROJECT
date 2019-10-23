@@ -4,8 +4,9 @@
 class Map
 {
 public:
-	Map();
+	Map(string texture);
 	void DRAW(RenderWindow* window);
+	bool loadNewMap();
 private:
 	Texture map1;
 	Sprite mapMain;
