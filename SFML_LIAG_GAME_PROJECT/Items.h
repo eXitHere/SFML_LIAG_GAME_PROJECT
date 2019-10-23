@@ -1,18 +1,23 @@
 #include"defineHead.h"
-#include<list>
-#define countItems 1
+#include"NameItems.h"
+
+#define time_Items 0.2
 class Items
 {
 public:
-	Items();
+	Items(string path,Vector2f pos); // need texture and position!!
 	void setPosition_Items(Vector2f Pos);
 	void DRAW(RenderWindow* window);
 private:
-	Texture texture[countItems];
+	void move();
+	float forSin = 20;
+	RectangleShape Grid;
+	Texture texture;
 	Sprite item;
 	IntRect REC;
-	void update(float delta);
-	list<Sprite> Items_List;
-	void Add();
+	void update();
+	Clock clock;
+	int X = 0;
+	float timeTotal = 0;
 };
 

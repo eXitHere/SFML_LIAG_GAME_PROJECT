@@ -1,12 +1,21 @@
 #include "Items.h"
 //loadFromFile("texture\\map\\map1.jpg");
-Items::Items()
+Items::Items(string path,Vector2f pos)
 {
-	this->texture[0].loadFromFile("texture\\items\\bear.png");
-	this->REC.width = texture[0].getSize().x / 4;
-	this->REC.height = texture[0].getSize().y;
+	this->texture.loadFromFile(path);
+	this->REC.width = this->texture.getSize().x / 4;
+	this->REC.height = this->texture.getSize().y;
 	this->REC.top = 0;
 	this->REC.left = 0;
+	this->item.setTexture(this->texture);
+	this->item.setPosition(pos);
+
+	/*
+	this Need to show girb for debug only!! 23
+	*/
+	this->Grid.setOutlineThickness(2.0f);
+	this->Grid.setOutlineColor(Color::Red);
+	this->Grid.setSize(Vector2f(this->REC.width, this->REC.height));
 }
 
 void Items::setPosition_Items(Vector2f Pos)
@@ -16,29 +25,28 @@ void Items::setPosition_Items(Vector2f Pos)
 
 void Items::DRAW(RenderWindow* window)
 {
-	if (Keyboard::isKeyPressed(Keyboard::U))
-	{
-		//cout << "ADD!!" << endl;
-		Add();
-		//cout << "Size List : " << Items_List.size() << endl;
-	}
-	for (list<Sprite>::iterator n = this->Items_List.begin(); n != this->Items_List.end(); n++)
-	{
-		n->move(-5, 0);
-		window->draw(*n);
-		if (n->getPosition().x < 0) Items_List.erase(n);
-		cout << n->getPosition().x << endl;
-	}
+	this->Grid.setPosition(this->item.getPosition());
+	this->update(); // call function
+	this->move(); // call move!
+	window->draw(this->Grid);
+	window->draw(this->item);
 }
 
-void Items::update(float delta)
+void Items::move()
 {
-	
+	this->item.move(-3, sin(forSin)*2);
+	forSin = (forSin == 0 ? 20 : forSin-0.1);
 }
 
-void Items::Add()
+void Items::update()
 {
-	this->item.setTexture(texture[0]);
-	this->item.setPosition(2000.0f, 200.0f);
-	this->Items_List.push_back(item);
+	this->timeTotal += clock.restart().asSeconds();
+	if (timeTotal >= time_Items) // in items.h >> define !!
+	{
+		timeTotal = 0;
+		X = (X == 3 ? 0 : X + 1); // next or reset
+	}
+	this->REC.left = X * this->REC.width;
+	this->item.setTextureRect(this->REC);
 }
+

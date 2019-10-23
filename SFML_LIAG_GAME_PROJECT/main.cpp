@@ -9,7 +9,7 @@
 #include"menu.h"
 #include"cutSceen.h"
 #include"ReadWriteFile.h"
-
+#include<vector> // this-> test load Items!
 void loadSetting(string data,int *valMusic,int *valEffect)
 {
 	int stateSetting = 0;
@@ -100,8 +100,6 @@ int main()
 	Event event;
 	Biker biker;
 	kickBall test;
-	Items item;
-
 	Map map1(map1Load);
 	Map map2(map2Load);
 	bool map2LOAD = false;
@@ -114,10 +112,10 @@ int main()
 
 
 	// Sound
-
 	int musicVal = 100;
 	int effectVal = 100;
 	loadSetting(settingFile.Read(), &musicVal,&effectVal);
+	
 	//menu
 	String temp;
 	bool saveSetting=false;
@@ -127,10 +125,12 @@ int main()
 	int int_Score[5];
 	loadScore(scoreFile.Read(), name_Score, int_Score);
 	Menu.updateScore(name_Score, int_Score);
-	/*for (int i = 0; i < 5; i++)
+
+	/*for (int i = 0; i < 5; i++) // debug load score complete!
 	{
 		cout << name_Score[i] << " " << int_Score[i] << endl;
 	}*/
+
 	soundPB PLAY;
 
 	// 
@@ -140,8 +140,33 @@ int main()
 	cutSceen cutsceen;
 	Clock clock;
 	float timeDelay = 0;
-	float timeDelay_Countdown;
+	float timeDelay_Countdown =0 ;
 	int __StateMain = 0;
+	
+	// test Items
+	vector<Items> items;
+	Items *TT;
+	TT = new Items(BEAR_, Vector2f(500, 600));
+	items.push_back(*TT);
+	TT = new Items(CANDY_, Vector2f(600, 600));
+	items.push_back(*TT);
+	TT = new Items(FOOD_, Vector2f(700, 600));
+	items.push_back(*TT);
+	TT = new Items(FOOD2_, Vector2f(800, 600));
+	items.push_back(*TT);
+	TT = new Items(TEACHER_, Vector2f(900, 600));
+	items.push_back(*TT);
+	TT = new Items(FOOTBALL_, Vector2f(500, 400));
+	items.push_back(*TT);
+	TT = new Items(MILK_, Vector2f(600, 400));
+	items.push_back(*TT);
+	TT = new Items(MONEY_, Vector2f(700, 400));
+	items.push_back(*TT);
+	TT = new Items(PAINTER_, Vector2f(800, 400));
+	items.push_back(*TT);
+	TT = new Items(WRENCH_, Vector2f(900, 400));
+	items.push_back(*TT);
+	//
 	//Menu.manageSound(&mediaPlay);
 	while (window.isOpen())
 	{
@@ -189,8 +214,8 @@ int main()
 		}
 		
 
-		window.clear();
-		
+		window.clear(); // debug Items
+
 		if (Menu.gameStart() && __StateMain==0)
 		{
 			PLAY.setSoundBG(false);
@@ -259,10 +284,13 @@ int main()
 			if (map2LOAD) map2.DRAW(&window);
 			map1.DRAW(&window);
 			bar.DRAW(&window);
-			item.DRAW(&window);
 			test.DRAW(&window);
 			biker.Draw(&window);
 			player.DRAW(&window);
+			for (int i = 0; i < items.size(); i++)
+			{
+				items[i].DRAW(&window);
+			}
 		}
 		else Menu.DRAW(&window, &event);
 		//cout << Menu.gameStart() << endl;

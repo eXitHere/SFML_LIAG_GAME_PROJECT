@@ -95,5 +95,8 @@
     <ClInclude Include="ReadWriteFile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NameItems.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
