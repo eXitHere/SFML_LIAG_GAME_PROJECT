@@ -46,7 +46,7 @@ void loadSetting(string data,int *valMusic,int *valEffect)
 }
 void loadScore(string data,string* name,int* Score)
 {
-	int temp_int;
+	int temp_int = 0;
 	string temp_string;
 	string temp2_string;
 	string temp3_string;
@@ -110,6 +110,9 @@ int main()
 	Map map1(map1Load);
 	Map map2(map2Load);
 	barDownManger barDown;
+	int Object = 3, Status[6] = { 0,0,0,0,0,0 }, ID[6] = { 0,0,0,0,0,0 };
+	bool Object2[2] = { false,true };
+	barDown.setData(&Object,&Object2[0],&Object2[1],&Status[0], ID,&Status[1], &Status[2], &Status[3], &Status[4], &Status[5]);
 	bool map2LOAD = false;
 	// ReadWriteFile
 	ReadWriteFile scoreFile(scoreTxt),settingFile(settingTxt);

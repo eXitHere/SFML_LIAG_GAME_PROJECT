@@ -40,9 +40,41 @@ barDownManger::barDownManger()
 	this->grid[0].setPosition(98, 763);
 	this->grid[1].setPosition(248, 763);
 	this->grid[2].setPosition(398, 763);
-	this->item[0].loadFromFile("texture\\bardown\\football.png");
-	this->listItem[0].setTexture(item[0]);
+	this->item[0].loadFromFile("texture\\bardown\\f.png");
+	this->item[1].loadFromFile("texture\\bardown\\p.png");
+	this->item[2].loadFromFile("texture\\bardown\\t.png");
+	this->item[3].loadFromFile("texture\\bardown\\w.png");
+	//this->listItem[0].setTexture(item[0]);
 	this->listItem[0].setPosition(118, 783);
+}
+
+void barDownManger::setNoActive()
+{
+	onLoad = false;
+}
+
+void barDownManger::setActive()
+{
+	this->onLoad = true;
+}
+
+void barDownManger::setData(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6)
+{
+	// set Active
+	if (*O1) this->active[0] = true;
+	else this->active[0] = false;
+	if (*O2) this->active[1] = true;
+	else this->active[1] = false;
+	if (*O3) this->active[2] = true;
+	else this->active[2] = false;
+	//for object 1
+	switch (*O1)
+	{ // f p t w // listItem
+	case 1: this->listItem[0].setTexture(this->item[0]); break;
+	case 2: this->listItem[0].setTexture(this->item[1]); break;
+	case 3: this->listItem[0].setTexture(this->item[2]); break;
+	case 4: this->listItem[0].setTexture(this->item[3]); break;
+	}
 }
 
 void barDownManger::DRAW(RenderWindow* window)
@@ -98,10 +130,7 @@ void barDownManger::OnLoad()
 		if (this->timeLoad < 0)
 		{
 			this->onLoad = false;
-			for (int i = 0; i < 3; i++)
-			{
-				this->active[i] = true;
-			}
+			timeLoad = delay / 0.2;
 		}
 		//cout << Rec.height << endl;
 	}

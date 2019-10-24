@@ -9,7 +9,7 @@ public:
 	void setPosition_Items(Vector2f Pos);
 	void DRAW(RenderWindow* window);
 	float xPos() { return this->item.getPosition().x;}
-	Vector2f getHalfSize() { return Vector2f(this->REC.width / 4.0f, this->REC.height / 4.0f); }
+	Vector2f getHalfSize() { return Vector2f(this->REC.width / 2.0f-10, this->REC.height / 2.0f-10); }
 	Vector2f getOriginPos() { return Vector2f(this->item.getPosition() + getHalfSize()); }
 private:
 	void move();

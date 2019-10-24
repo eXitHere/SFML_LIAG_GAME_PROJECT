@@ -18,7 +18,7 @@ private:
 	Text valString;
 	bool mute = false;
 	Clock clock;
-	float delta = 0.7;
+	double delta = 0.7;
 	float totalTime = 0;
 	Texture btn[8];
 	Sprite btnN, btnP,btnM;
