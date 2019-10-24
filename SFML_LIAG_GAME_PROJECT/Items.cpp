@@ -11,7 +11,7 @@ Items::Items(string path,Vector2f pos)
 	this->item.setPosition(pos);
 
 	/*
-	this Need to show girb for debug only!! 23
+	this Need to show girb for debug only!! 23.
 	*/
 	this->Grid.setOutlineThickness(2.0f);
 	this->Grid.setOutlineColor(Color::Red);
@@ -28,13 +28,13 @@ void Items::DRAW(RenderWindow* window)
 	this->Grid.setPosition(this->item.getPosition());
 	this->update(); // call function
 	this->move(); // call move!
-	window->draw(this->Grid);
+	//window->draw(this->Grid);
 	window->draw(this->item);
 }
 
 void Items::move()
 {
-	this->item.move(-3, sin(forSin)*2);
+	this->item.move(game_Speed, sin(forSin)*2);
 	forSin = (forSin == 0 ? 20 : forSin-0.1);
 }
 

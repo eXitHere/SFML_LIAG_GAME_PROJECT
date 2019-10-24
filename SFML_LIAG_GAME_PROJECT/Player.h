@@ -15,11 +15,6 @@ private:
 	bool isBaseFloor();
 	//
 
-
-	//test Effect
-	kickBall test;
-	void LoadEffect();
-	//
 	// for animation
 	Clock clock;
 	void control();
@@ -37,5 +32,7 @@ public:
 	void DRAW(RenderWindow* window);
 	void setJump(int state);
 	int getJump();
+	Vector2f getHalfSize() { return Vector2f(this->Rec.width / 4.0f, this->Rec.height /4.0f); }
+	Vector2f getOriginPos() { return Vector2f(this->body.getPosition() + getHalfSize()); }
 };
 

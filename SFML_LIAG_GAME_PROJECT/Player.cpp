@@ -29,11 +29,6 @@ bool Player::isBaseFloor()
 	return this->body.getPosition().y>= baseFloor - Rec.height + 45;
 }
 
-void Player::LoadEffect()
-{
-	
-}
-
 void Player::control()
 {
 	if (Keyboard::isKeyPressed(Keyboard::Space))

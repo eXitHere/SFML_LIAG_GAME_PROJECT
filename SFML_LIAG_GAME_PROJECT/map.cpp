@@ -24,5 +24,5 @@ bool Map::loadNewMap()
 
 void Map::moveMap()
 {
-	this->mapMain.move(speedMap, 0);
+	this->mapMain.move(game_Speed, 0);
 }

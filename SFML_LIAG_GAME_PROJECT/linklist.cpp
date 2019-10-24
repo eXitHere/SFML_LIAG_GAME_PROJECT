@@ -61,7 +61,6 @@ void linklist::insertPosition(int pos, unsigned long value)
 	temp->next = cur;
 	delete temp;
 	delete cur;
-	delete cur;
 }
 
 void linklist::deleteFirst()

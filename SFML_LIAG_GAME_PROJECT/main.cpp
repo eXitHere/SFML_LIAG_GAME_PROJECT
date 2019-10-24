@@ -9,7 +9,10 @@
 #include"menu.h"
 #include"cutSceen.h"
 #include"ReadWriteFile.h"
-#include<vector> // this-> test load Items!
+#include"barDownManger.h"
+
+//#include<vector> // this-> test load Items!
+#include<vector>  // this-> use for load items!
 void loadSetting(string data,int *valMusic,int *valEffect)
 {
 	int stateSetting = 0;
@@ -89,7 +92,11 @@ void manageMap()
 {
 
 }
-
+bool colision(Player* P, Items* I)
+{
+	return (abs(P->getOriginPos().x - I->getOriginPos().x) <= P->getHalfSize().x + I->getHalfSize().x &&
+		abs(P->getOriginPos().y - I->getOriginPos().y) <= P->getHalfSize().y + I->getHalfSize().y);
+}
 int main()
 {	
 	RenderWindow window(VideoMode(size_Width, size_Height), name_Title, Style::Close);
@@ -102,6 +109,7 @@ int main()
 	kickBall test;
 	Map map1(map1Load);
 	Map map2(map2Load);
+	barDownManger barDown;
 	bool map2LOAD = false;
 	// ReadWriteFile
 	ReadWriteFile scoreFile(scoreTxt),settingFile(settingTxt);
@@ -141,30 +149,33 @@ int main()
 	Clock clock;
 	float timeDelay = 0;
 	float timeDelay_Countdown =0 ;
-	int __StateMain = 0;
+	int __StateMain = 3;
 	
 	// test Items
 	vector<Items> items;
+	vector<Items>::iterator it;
+	vector<Items>::iterator tempit;
 	Items *TT;
-	TT = new Items(BEAR_, Vector2f(500, 600));
+	bool haveDel = false;
+	TT = new Items(BEAR_, Vector2f(800, 600));
 	items.push_back(*TT);
-	TT = new Items(CANDY_, Vector2f(600, 600));
+	TT = new Items(CANDY_, Vector2f(950, 600));
 	items.push_back(*TT);
-	TT = new Items(FOOD_, Vector2f(700, 600));
+	TT = new Items(FOOD_, Vector2f(1100, 600));
 	items.push_back(*TT);
-	TT = new Items(FOOD2_, Vector2f(800, 600));
+	TT = new Items(FOOD2_, Vector2f(1150, 600));
 	items.push_back(*TT);
-	TT = new Items(TEACHER_, Vector2f(900, 600));
+	TT = new Items(TEACHER_, Vector2f(1250, 600));
 	items.push_back(*TT);
-	TT = new Items(FOOTBALL_, Vector2f(500, 400));
+	TT = new Items(FOOTBALL_, Vector2f(1350, 600));
 	items.push_back(*TT);
-	TT = new Items(MILK_, Vector2f(600, 400));
+	TT = new Items(MILK_, Vector2f(1450, 600));
 	items.push_back(*TT);
-	TT = new Items(MONEY_, Vector2f(700, 400));
+	TT = new Items(MONEY_, Vector2f(1700, 600));
 	items.push_back(*TT);
-	TT = new Items(PAINTER_, Vector2f(800, 400));
+	TT = new Items(PAINTER_, Vector2f(1800, 600));
 	items.push_back(*TT);
-	TT = new Items(WRENCH_, Vector2f(900, 400));
+	TT = new Items(WRENCH_, Vector2f(1200, 600));
 	items.push_back(*TT);
 	//
 	//Menu.manageSound(&mediaPlay);
@@ -215,7 +226,7 @@ int main()
 		
 
 		window.clear(); // debug Items
-
+		
 		if (Menu.gameStart() && __StateMain==0)
 		{
 			PLAY.setSoundBG(false);
@@ -284,13 +295,26 @@ int main()
 			if (map2LOAD) map2.DRAW(&window);
 			map1.DRAW(&window);
 			bar.DRAW(&window);
+			barDown.DRAW(&window);
 			test.DRAW(&window);
 			biker.Draw(&window);
 			player.DRAW(&window);
-			for (int i = 0; i < items.size(); i++)
+			for (it = items.begin(); it != items.end(); ++it)
 			{
-				items[i].DRAW(&window);
+				if (it->xPos() < -100 || colision(&player,&(*it)))
+				{
+					tempit = it;
+					haveDel = true;
+				}
+				it->DRAW(&window);
 			}
+			if (haveDel)
+			{
+				cout << "Delete !!" << endl;
+				items.erase(tempit);
+				haveDel = false;
+			}
+			//cout << items.size() << endl;
 		}
 		else Menu.DRAW(&window, &event);
 		//cout << Menu.gameStart() << endl;

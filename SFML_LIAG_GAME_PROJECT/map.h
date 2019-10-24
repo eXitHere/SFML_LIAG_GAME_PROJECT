@@ -1,5 +1,4 @@
 #include"defineHead.h"
-#define speedMap -3
 
 class Map
 {

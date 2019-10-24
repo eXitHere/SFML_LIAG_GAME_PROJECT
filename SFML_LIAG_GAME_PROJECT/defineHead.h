@@ -9,10 +9,11 @@ using namespace sf;
 #define size_Width 1600
 #define name_Title "LIAG"
 #define frameRateLimit 60
+#define game_Speed -4
 
 #define TOP 120
 #define DOWN 750
-#define baseFloor DOWN-10
+#define baseFloor DOWN-20
 #define scoreTxt "database\\score.txt"
 #define settingTxt "database\\setting.txt"
 

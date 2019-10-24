@@ -24,6 +24,7 @@ void soundPB::setVolEffect(int val)
 {
 	this->_holdOnSound.setVolume(val);
 	this->_clickSound.setVolume(val);
+	this->_clockSound.setVolume(val);
 }
 
 void soundPB::_clickPlay()

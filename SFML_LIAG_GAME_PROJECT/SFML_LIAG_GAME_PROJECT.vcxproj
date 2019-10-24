@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="barDownManger.cpp" />
     <ClCompile Include="Biker.cpp" />
     <ClCompile Include="cutSceen.cpp" />
     <ClCompile Include="hpAndHappyBar.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="soundPB.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="barDownManger.h" />
     <ClInclude Include="Biker.h" />
     <ClInclude Include="cutSceen.h" />
     <ClInclude Include="defineHead.h" />
