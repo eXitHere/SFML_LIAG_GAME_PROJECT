@@ -1,0 +1,6 @@
+#define path_happyp "texture\\items\\happy.png"
+#define path_happyd "texture\\items\\sad.png"
+#define path_hpup "texture\\items\\hpUp.png"
+#define path_hpdown "texture\\items\\hpDown.png"
+#define path_moneyp "texture\\items\\moneyP.png"
+#define path_moneyd "texture\\items\\moneyD.png"

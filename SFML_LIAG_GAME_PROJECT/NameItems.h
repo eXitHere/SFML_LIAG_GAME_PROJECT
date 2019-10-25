@@ -12,3 +12,14 @@
 #define PAINTER_ "texture\\items\\painter.png"
 #define TEACHER_ "texture\\items\\teacher.png"
 #define WRENCH_ "texture\\items\\wrench.png"
+
+#define BEAR_ID 0
+#define CANDY_ID 1
+#define FOOD_ID 2
+#define FOOD2_ID 3
+#define FOOTBALL_ID 4
+#define MILK_ID 5
+#define MONEY_ID 6
+#define PAINTER_ID 7
+#define TEACHER_ID 8
+#define WRENCH_ID 9

@@ -10,9 +10,16 @@
 #include"cutSceen.h"
 #include"ReadWriteFile.h"
 #include"barDownManger.h"
-
+#include"StatusFace.h"
+#include"face.h"
 //#include<vector> // this-> test load Items!
 #include<vector>  // this-> use for load items!
+
+/*Global variable*/
+int boxForFace[6] = { -100,50,0,-50,100 }, indexFaceX = 0, indexFaceY = 2; // <-->
+Player player;
+
+//
 void loadSetting(string data,int *valMusic,int *valEffect)
 {
 	int stateSetting = 0;
@@ -92,27 +99,39 @@ void manageMap()
 {
 
 }
-bool colision(Player* P, Items* I)
+bool colision(Items* I)
 {
-	return (abs(P->getOriginPos().x - I->getOriginPos().x) <= P->getHalfSize().x + I->getHalfSize().x &&
-		abs(P->getOriginPos().y - I->getOriginPos().y) <= P->getHalfSize().y + I->getHalfSize().y);
+	return (abs(player.getOriginPos().x - I->getOriginPos().x) <= player.getHalfSize().x + I->getHalfSize().x &&
+		abs(player.getOriginPos().y - I->getOriginPos().y) <= player.getHalfSize().y + I->getHalfSize().y);
+}
+
+StatusFace addFace(string path)
+{
+	StatusFace* T;
+	T = new StatusFace(path, player.getOriginPos() + Vector2f(boxForFace[indexFaceX], boxForFace[indexFaceY]));
+	indexFaceX = (indexFaceX > 4 ? 0 : indexFaceX + 1);
+	indexFaceY = (indexFaceY > 4 ? 0 : indexFaceY + 1);
+	return *T;
+	/*
+	
+	bar.reduceHappy(1);
+	bar.reduceHp(1);
+	*/
 }
 int main()
 {	
 	RenderWindow window(VideoMode(size_Width, size_Height), name_Title, Style::Close);
 	window.setFramerateLimit(frameRateLimit);
-	Clock testDownhp;
 	hpAndHappyBar bar;
-	Player player;
 	Event event;
 	Biker biker;
 	kickBall test;
 	Map map1(map1Load);
 	Map map2(map2Load);
 	barDownManger barDown;
-	int Object = 3, Status[6] = { 0,0,0,0,0,0 }, ID[6] = { 0,0,0,0,0,0 };
-	bool Object2[2] = { false,true };
-	barDown.setData(&Object,&Object2[0],&Object2[1],&Status[0], ID,&Status[1], &Status[2], &Status[3], &Status[4], &Status[5]);
+	int Object = 3, Status[6] = { 0,0,0,0,0,0 }, ID[6] = { 1,2,3,4,0,0 };
+	bool Object2[2] = { true,false };
+	barDown.setData(&Object,&Object2[0],&Object2[1],&ID[0], &Status[0],&Status[1], &Status[2], &Status[3], &Status[4], &Status[5]);
 	bool map2LOAD = false;
 	// ReadWriteFile
 	ReadWriteFile scoreFile(scoreTxt),settingFile(settingTxt);
@@ -160,30 +179,76 @@ int main()
 	vector<Items>::iterator tempit;
 	Items *TT;
 	bool haveDel = false;
-	TT = new Items(BEAR_, Vector2f(800, 600));
+	TT = new Items(BEAR_, Vector2f(800, 600), BEAR_ID);
 	items.push_back(*TT);
-	TT = new Items(CANDY_, Vector2f(950, 600));
+	TT = new Items(CANDY_, Vector2f(950, 600), CANDY_ID);
 	items.push_back(*TT);
-	TT = new Items(FOOD_, Vector2f(1100, 600));
+	TT = new Items(FOOD_, Vector2f(1100, 600), FOOD_ID);
 	items.push_back(*TT);
-	TT = new Items(FOOD2_, Vector2f(1150, 600));
+	TT = new Items(FOOD2_, Vector2f(1150, 600), FOOD2_ID);
 	items.push_back(*TT);
-	TT = new Items(TEACHER_, Vector2f(1250, 600));
+	TT = new Items(TEACHER_, Vector2f(1250, 600), TEACHER_ID);
 	items.push_back(*TT);
-	TT = new Items(FOOTBALL_, Vector2f(1350, 600));
+	TT = new Items(FOOTBALL_, Vector2f(1350, 600), FOOTBALL_ID);
 	items.push_back(*TT);
-	TT = new Items(MILK_, Vector2f(1450, 600));
+	TT = new Items(MILK_, Vector2f(1450, 600), MILK_ID);
 	items.push_back(*TT);
-	TT = new Items(MONEY_, Vector2f(1700, 600));
+	TT = new Items(MONEY_, Vector2f(1700, 600), MONEY_ID);
 	items.push_back(*TT);
-	TT = new Items(PAINTER_, Vector2f(1800, 600));
+	TT = new Items(PAINTER_, Vector2f(1800, 600), PAINTER_ID);
 	items.push_back(*TT);
-	TT = new Items(WRENCH_, Vector2f(1200, 600));
+	TT = new Items(WRENCH_, Vector2f(1200, 600), WRENCH_ID);
 	items.push_back(*TT);
+	for (int i = 0; i < 3; i++)
+	{
+		TT = new Items(PAINTER_, Vector2f(1800 + i*200, 600), PAINTER_ID);
+		items.push_back(*TT);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		TT = new Items(TEACHER_, Vector2f(2400 + i * 200, 600), TEACHER_ID);
+		items.push_back(*TT);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		TT = new Items(WRENCH_, Vector2f(3000 + i * 200, 600), WRENCH_ID);
+		items.push_back(*TT);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		TT = new Items(FOOTBALL_, Vector2f(3800 + i * 200, 600), FOOTBALL_ID);
+		items.push_back(*TT);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		TT = new Items(BEAR_, Vector2f(4500 + i * 200, 600), BEAR_ID);
+		items.push_back(*TT);
+	}
 	//
 	//Menu.manageSound(&mediaPlay);
+
+	vector<StatusFace> faceList;
+	vector<StatusFace>::iterator itf = faceList.begin();
+	vector<StatusFace>::iterator tempf = faceList.begin();
+	StatusFace* P;
+	bool delFace = false;
+	
+	//Clock T_Clock;
+	//float T_time = 0;
+	//bool pressE = false;
 	while (window.isOpen())
 	{
+		/*T_time += T_Clock.restart().asSeconds();
+		if (Keyboard::isKeyPressed(Keyboard::E) && !pressE)
+		{
+			T_time = 0;
+			pressE = true;
+			cout << faceList.size() << endl;
+			P = new StatusFace(path_happyp, player.getOriginPos());
+			faceList.push_back(*P);
+		}
+		if (T_time >= 1) pressE = false;*/
+
 		if (map1.loadNewMap())
 		{
 			cout << "Load map mai I sas !" << endl;
@@ -206,12 +271,6 @@ int main()
 				window.close();
 			}
 			
-		}
-		if (testDownhp.getElapsedTime().asSeconds() >0.5)
-		{
-			bar.reduceHappy(1);
-			bar.reduceHp(1);
-			testDownhp.restart();
 		}
 
 		switch (Menu.stateSonud_OnHold())
@@ -304,16 +363,100 @@ int main()
 			player.DRAW(&window);
 			for (it = items.begin(); it != items.end(); ++it)
 			{
-				if (it->xPos() < -100 || colision(&player,&(*it)))
+				if (it->xPos() < -100 || colision(&(*it)))
 				{
+					/*
+					bar.reduceHappy(1);
+				    bar.reduceHp(1);
+					*/
+					switch (it->getType())
+					{
+						case FOOTBALL_ID: 
+						{ 
+							Status[0]++;
+							faceList.push_back(addFace(path_happyp));
+							break; 
+						}
+						case PAINTER_ID: 
+						{ 
+							Status[1]++; 
+							faceList.push_back(addFace(path_happyp));
+							break; 
+						}
+						case TEACHER_ID: 
+						{
+							Status[2]++; 
+							faceList.push_back(addFace(path_happyp));
+							break; 
+						}
+						case WRENCH_ID: 
+						{ 
+							Status[3]++; 
+							faceList.push_back(addFace(path_happyp));
+							break; 
+						}
+						case BEAR_ID: 
+						{
+							faceList.push_back(addFace(path_hpdown));
+							faceList.push_back(addFace(path_moneyd));
+							bar.reduceHp(5);
+							break; 
+						};
+						case CANDY_ID: 
+						{ 
+							faceList.push_back(addFace(path_happyp));
+							faceList.push_back(addFace(path_hpdown));
+							faceList.push_back(addFace(path_moneyd));
+							bar.reduceHp(1);
+							break; 
+						};
+						case FOOD_ID: 
+						{ 
+							faceList.push_back(addFace(path_happyp));
+							faceList.push_back(addFace(path_moneyd));
+							break; 
+						};
+						case FOOD2_ID: 
+						{ 
+							faceList.push_back(addFace(path_happyp));
+							faceList.push_back(addFace(path_moneyd));
+							break; 
+						}
+						case MILK_ID: 
+						{ 
+							faceList.push_back(addFace(path_happyp));
+							break; 
+						}
+						case MONEY_ID: 
+						{
+							faceList.push_back(addFace(path_happyp));
+							break;  
+						}
+					}
+					//faceList.push_back(*P);
+					barDown.updateCount();
 					tempit = it;
 					haveDel = true;
 				}
 				it->DRAW(&window);
 			}
+			for (itf = faceList.begin(); itf != faceList.end(); ++itf)
+			{
+				itf->DRAW(&window);
+				if (itf->getDelete())
+				{
+					delFace = true;
+					tempf = itf;
+				}
+			}
+			if (delFace)
+			{
+				faceList.erase(tempf);
+				delFace =false;
+			}
 			if (haveDel)
 			{
-				cout << "Delete !!" << endl;
+				//cout << "Delete !!" << endl;
 				items.erase(tempit);
 				haveDel = false;
 			}

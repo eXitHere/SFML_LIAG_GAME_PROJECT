@@ -2,6 +2,8 @@
 
 barDownManger::barDownManger()
 {
+	font.loadFromFile("font\\impact.ttf"); // load Font
+
 	//cout << timeLoad << endl;
 	this->objectT.loadFromFile("texture\\bardown\\active.png");
 	//this->objectT[1].loadFromFile("texture\\bardown\\active1.png");
@@ -46,6 +48,56 @@ barDownManger::barDownManger()
 	this->item[3].loadFromFile("texture\\bardown\\w.png");
 	//this->listItem[0].setTexture(item[0]);
 	this->listItem[0].setPosition(118, 783);
+	this->friendTexture[0].loadFromFile("texture\\bardown\\friend.png");
+	this->friendTexture[1].loadFromFile("texture\\bardown\\friend_black.png");
+	//this->FriendSprite.setTexture(this->friendTexture[0]);
+	this->FriendSprite.setPosition(268, 783);
+	this->FamilyTexture[0].loadFromFile("texture\\bardown\\family.png");
+	this->FamilyTexture[1].loadFromFile("texture\\bardown\\family_black.png");
+	//this->FamilySprite.setTexture(this->FamilyTexture[0]);
+	this->FamilySprite.setPosition(418,783);
+	this->I[0].loadFromFile("texture\\bardown\\i1.png");
+	this->I[1].loadFromFile("texture\\bardown\\i2.png");
+	this->I[2].loadFromFile("texture\\bardown\\i3.png");
+	this->I[3].loadFromFile("texture\\bardown\\i4.png");
+	this->I[4].loadFromFile("texture\\bardown\\i5.png");
+
+	countItem[0].setFont(font);
+	countItem[0].setString("0/10");
+	countItem[0].setCharacterSize(20);
+	countItem[0].setFillColor(Color::White);
+	countItem[0].setPosition(680, 780);
+
+	countItem[1].setFont(font);
+	countItem[1].setString("0/10");
+	countItem[1].setCharacterSize(20);
+	countItem[1].setFillColor(Color::White);
+	countItem[1].setPosition(680, 845);
+
+	countItem[2].setFont(font);
+	countItem[2].setString("0/10");
+	countItem[2].setCharacterSize(20);
+	countItem[2].setFillColor(Color::White);
+	countItem[2].setPosition(880, 780);
+
+	countItem[3].setFont(font);
+	countItem[3].setString("0/10");
+	countItem[3].setCharacterSize(20);
+	countItem[3].setFillColor(Color::White);
+	countItem[3].setPosition(880, 845);
+
+	countItem[4].setFont(font);
+	countItem[4].setString("0/10");
+	countItem[4].setCharacterSize(20);
+	countItem[4].setFillColor(Color::White);
+	countItem[4].setPosition(1080, 845);
+
+	countItem[5].setFont(font);
+	countItem[5].setString("0/10");
+	countItem[5].setCharacterSize(20);
+	countItem[5].setFillColor(Color::White);
+	countItem[5].setPosition(1080, 845);
+	//this->I[5].loadFromFile("texture\\bardown\\i6.png");
 }
 
 void barDownManger::setNoActive()
@@ -60,13 +112,20 @@ void barDownManger::setActive()
 
 void barDownManger::setData(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I2, int* I3, int* I4, int* I5, int* I6)
 {
+	//setPointer!
+	this->pointerCount[0] = I1;
+	this->pointerCount[1] = I2;
+	this->pointerCount[2] = I3;
+	this->pointerCount[3] = I4;
+	this->pointerCount[4] = I5;
+	this->pointerCount[5] = I6;
 	// set Active
 	if (*O1) this->active[0] = true;
 	else this->active[0] = false;
-	if (*O2) this->active[1] = true;
-	else this->active[1] = false;
-	if (*O3) this->active[2] = true;
-	else this->active[2] = false;
+	if (*O2) { this->active[1] = true; this->FamilySprite.setTexture(this->FamilyTexture[1]); }
+	else { this->active[1] = false; this->FamilySprite.setTexture(this->FamilyTexture[0]); }
+	if (*O3) { this->active[2] = true; this->FriendSprite.setTexture(this->friendTexture[1]); }
+	else { this->active[2] = false; this->FriendSprite.setTexture(this->friendTexture[0]); }
 	//for object 1
 	switch (*O1)
 	{ // f p t w // listItem
@@ -74,6 +133,24 @@ void barDownManger::setData(int* O1, bool* O2, bool* O3, int* D, int* I1, int* I
 	case 2: this->listItem[0].setTexture(this->item[1]); break;
 	case 3: this->listItem[0].setTexture(this->item[2]); break;
 	case 4: this->listItem[0].setTexture(this->item[3]); break;
+	}
+	for (int i = 0; i < 6; i++)
+	{
+		if (*(D + i) != 0)
+		{
+			switch (*(D+i))
+			{
+			case 1: this->itemCount[i].setTexture(this->I[0]); break;
+			case 2: this->itemCount[i].setTexture(this->I[1]);; break;
+			case 3: this->itemCount[i].setTexture(this->I[2]);; break;
+			case 4: this->itemCount[i].setTexture(this->I[3]);; break;
+			}
+			IHide[i] = true;
+		}
+		else
+		{
+			IHide[i] = false;
+		}
 	}
 }
 
@@ -87,17 +164,31 @@ void barDownManger::DRAW(RenderWindow* window)
 	}
 	for (int i = 0; i < 6; i++)
 	{
-		window->draw(this->itemCount[i]);
+		if (IHide[i])
+		{
+			window->draw(this->itemCount[i]);
+			window->draw(this->countItem[i]);
+		}
 	}
 	window->draw(this->listItem[0]);
+	window->draw(this->FriendSprite);
+	window->draw(this->FamilySprite);
 	if (this->onLoad)
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			window->draw(this->onload[i]);
+			if(active[i]) window->draw(this->onload[i]);
 		}
 	}
 	for (int i = 0; i < 3; i++) window->draw(this->grid[i]);
+}
+
+void barDownManger::updateCount() // call from main
+{
+	for (int i = 0; i < 6; i++)
+	{
+		countItem[i].setString(to_string(*pointerCount[i])+"/10");
+	}
 }
 
 void barDownManger::Active()

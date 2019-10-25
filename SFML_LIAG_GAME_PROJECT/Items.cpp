@@ -1,7 +1,8 @@
 #include "Items.h"
 //loadFromFile("texture\\map\\map1.jpg");
-Items::Items(string path,Vector2f pos)
+Items::Items(string path,Vector2f pos,int ID)
 {
+	this->ID = ID;
 	this->texture.loadFromFile(path);
 	this->REC.width = this->texture.getSize().x / 4;
 	this->REC.height = this->texture.getSize().y;
@@ -30,6 +31,12 @@ void Items::DRAW(RenderWindow* window)
 	this->move(); // call move!
 	window->draw(this->Grid);
 	window->draw(this->item);
+}
+
+int Items::getType()
+{
+	
+	return this->ID;
 }
 
 void Items::move()

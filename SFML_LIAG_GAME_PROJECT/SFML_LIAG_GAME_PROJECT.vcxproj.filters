@@ -57,6 +57,9 @@
     <ClCompile Include="barDownManger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="StatusFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defineHead.h">
@@ -102,6 +105,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="barDownManger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="face.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

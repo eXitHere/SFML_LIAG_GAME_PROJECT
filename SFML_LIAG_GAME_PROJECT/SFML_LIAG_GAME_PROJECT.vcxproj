@@ -143,12 +143,14 @@
     <ClCompile Include="ReadWriteFile.cpp" />
     <ClCompile Include="scrollBar.cpp" />
     <ClCompile Include="soundPB.cpp" />
+    <ClCompile Include="StatusFace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="barDownManger.h" />
     <ClInclude Include="Biker.h" />
     <ClInclude Include="cutSceen.h" />
     <ClInclude Include="defineHead.h" />
+    <ClInclude Include="face.h" />
     <ClInclude Include="hpAndHappyBar.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="linklist.h" />
@@ -160,6 +162,7 @@
     <ClInclude Include="ReadWriteFile.h" />
     <ClInclude Include="scrollBar.h" />
     <ClInclude Include="soundPB.h" />
+    <ClInclude Include="StatusFace.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
