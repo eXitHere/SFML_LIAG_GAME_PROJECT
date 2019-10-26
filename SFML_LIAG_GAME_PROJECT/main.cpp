@@ -399,7 +399,7 @@ int main()
 						{
 							faceList.push_back(addFace(path_hpdown));
 							faceList.push_back(addFace(path_moneyd));
-							bar.reduceHp(5);
+							bar.reduceHp(-5);
 							break; 
 						};
 						case CANDY_ID: 
@@ -407,29 +407,34 @@ int main()
 							faceList.push_back(addFace(path_happyp));
 							faceList.push_back(addFace(path_hpdown));
 							faceList.push_back(addFace(path_moneyd));
-							bar.reduceHp(1);
+							bar.reduceHp(-1);
+							bar.reduceHappy(3);
 							break; 
 						};
 						case FOOD_ID: 
 						{ 
 							faceList.push_back(addFace(path_happyp));
 							faceList.push_back(addFace(path_moneyd));
+							bar.reduceHappy(3);
 							break; 
 						};
 						case FOOD2_ID: 
 						{ 
 							faceList.push_back(addFace(path_happyp));
 							faceList.push_back(addFace(path_moneyd));
+							bar.reduceHappy(3);
 							break; 
 						}
 						case MILK_ID: 
 						{ 
 							faceList.push_back(addFace(path_happyp));
+							bar.reduceHappy(3);
 							break; 
 						}
 						case MONEY_ID: 
 						{
 							faceList.push_back(addFace(path_happyp));
+							bar.reduceHappy(3);
 							break;  
 						}
 					}

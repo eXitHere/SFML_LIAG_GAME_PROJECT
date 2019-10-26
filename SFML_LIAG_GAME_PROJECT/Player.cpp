@@ -8,25 +8,31 @@ void Player::jump_Action()
 		//cout << "Jump!!!!!!" << endl;
 		this->body.move(0, -jump_Value);
 		if (isBaseHeight()) setJump(2);
-		jump_Value -= 0.2;
+		jump_Value -= 0.1;
+		//cout << "Up" << endl;
 	}
 	else if (getJump() == 2)
 	{
+		//cout << this->jump_Value << endl;
 		this->body.move(0, jump_Value);
 		if (isBaseFloor()) setJump(0);
-		jump_Value -= 0.2;
+		jump_Value -= 0.1;
+		//cout << "Down" << endl;
 	}
 }
 
 
 bool Player::isBaseHeight()
 {
-	return this->body.getPosition().y< TOP+50;
+	if (_action == 0) return this->body.getPosition().y < 500;
+	else return this->body.getPosition().y< TOP+50;
 }
 
 bool Player::isBaseFloor()
 {
-	return this->body.getPosition().y>= baseFloor - Rec.height + 45;
+	if(_action==0) return this->body.getPosition().y >= (baseFloor - Rec.height +30);
+	else if(_action == 1) return this->body.getPosition().y >= (baseFloor - Rec.height + 30);
+	else return this->body.getPosition().y >= baseFloor - Rec.height + 45;
 }
 
 void Player::control()
@@ -38,6 +44,26 @@ void Player::control()
 		{
 			setJump(1);
 			//cout << "Jump Up!" << endl;
+		}
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Q))
+	{
+		if (!this->prees)
+		{
+			_action = 1;
+			this->prees = true;
+			updateRec(_action);
+			setJump(2);
+		}
+	}
+	if (Keyboard::isKeyPressed(Keyboard::W))
+	{
+		if (this->prees)
+		{
+			this->prees = false;
+			_action = 0;
+			updateRec(_action);
+			setJump(2);
 		}
 	}
 }
@@ -69,6 +95,7 @@ void Player::updateRec(int action)
 	// debug animation 8.22pm 16/10
 	//cout<< "Action" << action << " width : " << this->Rec.width << " height : " << this->Rec.height << " Switch : " << switchColumn << endl;
 	//
+	//cout << action << endl;
 	this->body.setTexture(texturePlayer[action]);
 	this->_action = action;
 	this->totalTime = 0;
@@ -76,24 +103,51 @@ void Player::updateRec(int action)
 	this->Rec.width = texturePlayer[action].getSize().x / this->numPic[action];
 	this->Rec.height = texturePlayer[action].getSize().y;
 	Rec.left = 0;
-	this->body.setPosition(Vector2f(100, baseFloor - Rec.height + 45));
+	if (_action == 0)
+	{
+		//this->body.setPosition(Vector2f(100, baseFloor - Rec.height + 30));
+	}
+	else
+	{
+		this->body.setPosition(Vector2f(100, baseFloor - Rec.height + 45));
+	}
 }
 Player::Player() // for load data to player
 {
 	//cout << "Open class player";
-	this->texturePlayer[0].loadFromFile("texture\\player\\run-01.png");
-	this->texturePlayer[1].loadFromFile("texture\\player\\jump.png");
-	for (int i = 0; i < 2; i++)
+	this->texturePlayer[0].loadFromFile("texture\\player\\baby-01.png");
+	this->texturePlayer[1].loadFromFile("texture\\player\\baby+S-01.png");
+	this->texturePlayer[2].loadFromFile("texture\\player\\run-01.png");
+	this->texturePlayer[3].loadFromFile("texture\\player\\jump.png");
+
+	for (int i = 0; i < 4; i++)
 	{
 		this->texturePlayer[i].setSmooth(true);
 		this->texturePlayer[i].setRepeated(true);
 	}
 	this->body.setTexture(texturePlayer[0]);
 	//this->body.setPosition(Vector2f(100.0f, 100.0f));
-	this->Rec.width = texturePlayer[0].getSize().x / this->numPic[0];
+	this->Rec.width = texturePlayer[0].getSize().x / this->numPic[this->_action];
 	this->Rec.height = texturePlayer[0].getSize().y / 1;
-	this->body.setPosition(Vector2f(100,baseFloor - Rec.height+45));
+	if (_action == 0)
+	{
+		this->body.setPosition(Vector2f(100, baseFloor - Rec.height + 30));
+	}
+	else if (_action == 1)
+	{
+		this->body.setPosition(Vector2f(100, baseFloor - Rec.height + 10));
+	}
+	else
+	{
+		this->body.setPosition(Vector2f(100, baseFloor - Rec.height + 45));
+	}
+	
 	this->sizeBody = Vector2f(Rec.width, Rec.height);
+}
+
+void Player::selectChalactor(int select)
+{
+	this->_action = select;
 }
 
 void Player::DRAW(RenderWindow* window)
@@ -108,9 +162,16 @@ void Player::DRAW(RenderWindow* window)
 void Player::setJump(int state)
 {
 	this->jumpState = state;
-	this->jump_Value = jumpP;
-	if(state==0) updateRec(0);
-	else if(state == 1) updateRec(1);
+	this->jump_Value = jumpP[_action];
+	if (this->_action == 0 || this->_action ==1)
+	{
+		//updateRec(0);
+	}
+	else
+	{
+		if (state == 0) updateRec(2);
+		else if (state == 1) updateRec(3);
+	}
 }
 
 int Player::getJump()

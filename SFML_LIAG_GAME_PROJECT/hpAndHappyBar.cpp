@@ -50,12 +50,14 @@ hpAndHappyBar::hpAndHappyBar() // load data
 
 void hpAndHappyBar::reduceHp(int val) // -- hp
 {
-	this->hpVal -= val;
-}
+	if(this->hpVal>0 && this->hpVal <=70) this->hpVal += val;
+	if (this->hpVal > 70) this->hpVal = 70;
+} 
 
 void hpAndHappyBar::reduceHappy(int val) // -- happy
 {
-	this->happyVal -= val;
+	if (this->happyVal > 0 && this->happyVal <= 70) this->happyVal += val;
+	if (this->happyVal > 70) this->happyVal = 70;
 }
 
 void hpAndHappyBar::reset() // this function for restart game!!

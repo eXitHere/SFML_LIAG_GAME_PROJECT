@@ -26,10 +26,10 @@ void Items::setPosition_Items(Vector2f Pos)
 
 void Items::DRAW(RenderWindow* window)
 {
-	this->Grid.setPosition(this->item.getPosition());
+	//this->Grid.setPosition(this->item.getPosition());
 	this->update(); // call function
 	this->move(); // call move!
-	window->draw(this->Grid);
+	//window->draw(this->Grid);
 	window->draw(this->item);
 }
 

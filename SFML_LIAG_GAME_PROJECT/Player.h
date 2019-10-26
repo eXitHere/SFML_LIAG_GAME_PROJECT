@@ -1,16 +1,20 @@
 #include"defineHead.h"
 #include"ObjectWithEffect.h"
-#define jumpP 15
+
 class Player
 {
 private:
+	//testSwip animation 
+	bool prees = false;
+
 	// for player
 	Sprite body;
-	Texture texturePlayer[2];
+	Texture texturePlayer[4];
 	Vector2f sizeBody;
 	int jumpState = 0;
 	void jump_Action();
-	double jump_Value = jumpP;
+	float jumpP[4] = { 10,20,20,20 };
+	double jump_Value = jumpP[0];
 	bool isBaseHeight();
 	bool isBaseFloor();
 	//
@@ -23,12 +27,13 @@ private:
 	double switchPic = 0.100; // <- time for switch
 	double totalTime = 0;
 	IntRect Rec;
-	int _action = 0;
-	int numPic[2] = {6,8};
+	int _action = 1;
+	int numPic[4] = {4,4,6,8};
+	int floorBaby = 500;
 	void updateRec(int action);
-	//
 public:
 	Player(); // load data
+	void selectChalactor(int select);
 	void DRAW(RenderWindow* window);
 	void setJump(int state);
 	int getJump();

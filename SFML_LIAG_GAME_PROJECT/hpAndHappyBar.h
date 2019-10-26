@@ -12,8 +12,8 @@ public:
 	void show(); // Slid
 	void hide();
 private:
-	int hpVal = 70;
-	int happyVal = 70;
+	int hpVal = 50;
+	int happyVal = 50;
 	Sprite hpHappyBar;
 	Sprite lop;
 	Sprite lop2;
