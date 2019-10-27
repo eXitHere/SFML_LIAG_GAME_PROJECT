@@ -201,7 +201,7 @@ void barDownManger::Active()
 		{	
 			if (active[i])
 			{
-				cout << "Active!" << endl;
+				//cout << "Active!" << endl;
 				grid[i].setTexture(textureGrid[switcH]);
 			}	
 		}

@@ -12,9 +12,11 @@
 #include"barDownManger.h"
 #include"StatusFace.h"
 #include"face.h"
+#include <malloc.h>
 //#include<vector> // this-> test load Items!
 #include<vector>  // this-> use for load items!
 
+int testttt;
 /*Global variable*/
 int boxForFace[6] = { -100,50,0,-50,100 }, indexFaceX = 0, indexFaceY = 2; // <-->
 Player player;
@@ -27,9 +29,9 @@ void loadSetting(string data,int *valMusic,int *valEffect)
 	int temp;
 	for (int i = 0; i < data.length(); i++)
 	{
-		if (data[i] == '|' || data[i+1] == '\0')
+		if (data[i] == '|' || data[(i+1)] == '\0')
 		{
-			if (data[i + 1] == '\0') temp1 += data[i];
+			if (data[(i + 1)] == '\0') temp1 += data[i];
 			temp = stoi(temp1);
 			switch (stateSetting)
 			{
@@ -60,9 +62,9 @@ void loadScore(string data,string* name,int* Score)
 	int state_score = 0;
 	for (int i = 0; i<data.length(); i++)
 	{
-		if (data[i] == '|' || data[i + 1] == '\0')
+		if (data[i] == '|' || data[(i + 1)] == '\0')
 		{
-			if (data[i + 1] == '\0') temp_string += data[i];
+			if (data[(i + 1)] == '\0') temp_string += data[i];
 			temp_string += '\0';
 			for (int j = 0; j < temp_string.length() ; j++)
 			{
@@ -101,11 +103,11 @@ void manageMap()
 }
 bool colision(Items* I)
 {
-	return (abs(player.getOriginPos().x - I->getOriginPos().x) <= player.getHalfSize().x + I->getHalfSize().x &&
+	return (I->getOriginPos().x>0 &&abs(player.getOriginPos().x - I->getOriginPos().x) <= player.getHalfSize().x + I->getHalfSize().x &&
 		abs(player.getOriginPos().y - I->getOriginPos().y) <= player.getHalfSize().y + I->getHalfSize().y);
 }
 
-StatusFace addFace(string path)
+StatusFace addFace(const char* path)
 {
 	StatusFace* T;
 	T = new StatusFace(path, player.getOriginPos() + Vector2f(boxForFace[indexFaceX], boxForFace[indexFaceY]));
@@ -118,7 +120,7 @@ StatusFace addFace(string path)
 	bar.reduceHp(1);
 	*/
 }
-int main()
+void main()
 {	
 	RenderWindow window(VideoMode(size_Width, size_Height), name_Title, Style::Close);
 	window.setFramerateLimit(frameRateLimit);
@@ -147,7 +149,7 @@ int main()
 	loadSetting(settingFile.Read(), &musicVal,&effectVal);
 	
 	//menu
-	String temp;
+	string temp;
 	bool saveSetting=false;
 	menu Menu(&musicVal, &effectVal);
 	Menu.changeSetting(&saveSetting);
@@ -177,9 +179,10 @@ int main()
 	vector<Items> items;
 	vector<Items>::iterator it;
 	vector<Items>::iterator tempit;
-	Items *TT;
+	Items* TT;
+	Items* Tdel;
 	bool haveDel = false;
-	TT = new Items(BEAR_, Vector2f(800, 600), BEAR_ID);
+	/*TT = new Items(BEAR_, Vector2f(800, 600), BEAR_ID);
 	items.push_back(*TT);
 	TT = new Items(CANDY_, Vector2f(950, 600), CANDY_ID);
 	items.push_back(*TT);
@@ -223,7 +226,7 @@ int main()
 	{
 		TT = new Items(BEAR_, Vector2f(4500 + i * 200, 600), BEAR_ID);
 		items.push_back(*TT);
-	}
+	}*/
 	//
 	//Menu.manageSound(&mediaPlay);
 
@@ -236,8 +239,21 @@ int main()
 	//Clock T_Clock;
 	//float T_time = 0;
 	//bool pressE = false;
+	int PosTemp = 100;
+	Clock clockT;
+	float T=0;
 	while (window.isOpen())
 	{
+		T += clockT.restart().asSeconds();
+		if(T > 3.0f)
+		{
+			T = 0;
+			TT = new Items(BEAR_, Vector2f(PosTemp, 200), BEAR_ID);
+			PosTemp += 120;
+			items.push_back(*TT);
+			//delete TT;
+			cout << "Added !!" << " size of :: " << items.size() << endl;
+		}
 		/*T_time += T_Clock.restart().asSeconds();
 		if (Keyboard::isKeyPressed(Keyboard::E) && !pressE)
 		{
@@ -251,7 +267,7 @@ int main()
 
 		if (map1.loadNewMap())
 		{
-			cout << "Load map mai I sas !" << endl;
+			//cout << "Load map mai I sas !" << endl;
 			map2LOAD = true;
 		}
 		PLAY.setVolMusic(musicVal);
@@ -363,7 +379,8 @@ int main()
 			player.DRAW(&window);
 			for (it = items.begin(); it != items.end(); ++it)
 			{
-				if (it->xPos() < -100 || colision(&(*it)))
+				//cout << "Check Items" << endl;
+				if (colision(&(*it)))
 				{
 					/*
 					bar.reduceHappy(1);
@@ -443,6 +460,11 @@ int main()
 					tempit = it;
 					haveDel = true;
 				}
+				if (it->xPos() < -100)
+				{
+					tempit = it;
+					haveDel = true;
+				}
 				it->DRAW(&window);
 			}
 			for (itf = faceList.begin(); itf != faceList.end(); ++itf)
@@ -461,8 +483,10 @@ int main()
 			}
 			if (haveDel)
 			{
-				//cout << "Delete !!" << endl;
+				cout << "Delete !!" << endl;
+				Tdel = &*tempit;
 				items.erase(tempit);
+				delete Tdel;
 				haveDel = false;
 			}
 			//cout << items.size() << endl;

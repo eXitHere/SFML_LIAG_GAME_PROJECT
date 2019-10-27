@@ -60,6 +60,9 @@
     <ClCompile Include="StatusFace.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="loadTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="defineHead.h">
@@ -111,6 +114,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="face.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="loadTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

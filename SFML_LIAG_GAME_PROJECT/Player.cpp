@@ -119,7 +119,6 @@ Player::Player() // for load data to player
 	this->texturePlayer[1].loadFromFile("texture\\player\\baby+S-01.png");
 	this->texturePlayer[2].loadFromFile("texture\\player\\run-01.png");
 	this->texturePlayer[3].loadFromFile("texture\\player\\jump.png");
-
 	for (int i = 0; i < 4; i++)
 	{
 		this->texturePlayer[i].setSmooth(true);
