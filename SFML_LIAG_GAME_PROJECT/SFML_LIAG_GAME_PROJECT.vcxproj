@@ -135,7 +135,6 @@
     <ClCompile Include="hpAndHappyBar.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="linklist.cpp" />
-    <ClCompile Include="loadTexture.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="map.cpp" />
     <ClCompile Include="kickBall.cpp" />
@@ -155,7 +154,6 @@
     <ClInclude Include="hpAndHappyBar.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="linklist.h" />
-    <ClInclude Include="loadTexture.h" />
     <ClInclude Include="map.h" />
     <ClInclude Include="kickBall.h" />
     <ClInclude Include="menu.h" />

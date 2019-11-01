@@ -22,6 +22,23 @@ int boxForFace[6] = { -100,50,0,-50,100 }, indexFaceX = 0, indexFaceY = 2; // <-
 Player player;
 
 //
+Texture bear_Texture;
+Texture candy_Texture;
+Texture food_Texture;
+Texture food2_Texture;
+Texture milk_Texture;
+Texture money_Texture;
+
+void load()
+{
+	bear_Texture.loadFromFile(BEAR_);
+	candy_Texture.loadFromFile(CANDY_);
+	food_Texture.loadFromFile(FOOD_);
+	food2_Texture.loadFromFile(FOOD2_);
+	milk_Texture.loadFromFile(MILK_);
+	money_Texture.loadFromFile(MONEY_);
+}
+
 void loadSetting(string data,int *valMusic,int *valEffect)
 {
 	int stateSetting = 0;
@@ -122,6 +139,7 @@ StatusFace addFace(const char* path)
 }
 void main()
 {	
+	load();
 	RenderWindow window(VideoMode(size_Width, size_Height), name_Title, Style::Close);
 	window.setFramerateLimit(frameRateLimit);
 	hpAndHappyBar bar;
@@ -173,14 +191,13 @@ void main()
 	Clock clock;
 	float timeDelay = 0;
 	float timeDelay_Countdown =0 ;
-	int __StateMain = 3;
+	int __StateMain = 0;
 	
 	// test Items
 	vector<Items> items;
 	vector<Items>::iterator it;
 	vector<Items>::iterator tempit;
 	Items* TT;
-	Items* Tdel;
 	bool haveDel = false;
 	/*TT = new Items(BEAR_, Vector2f(800, 600), BEAR_ID);
 	items.push_back(*TT);
@@ -248,11 +265,10 @@ void main()
 		if(T > 3.0f)
 		{
 			T = 0;
-			TT = new Items(BEAR_, Vector2f(PosTemp, 200), BEAR_ID);
+			TT = new Items(bear_Texture, Vector2f(PosTemp, 200), BEAR_ID);
 			PosTemp += 120;
 			items.push_back(*TT);
-			//delete TT;
-			cout << "Added !!" << " size of :: " << items.size() << endl;
+			//cout << "Added !!" << " size of :: " << items.size() << endl;
 		}
 		/*T_time += T_Clock.restart().asSeconds();
 		if (Keyboard::isKeyPressed(Keyboard::E) && !pressE)
@@ -484,9 +500,7 @@ void main()
 			if (haveDel)
 			{
 				cout << "Delete !!" << endl;
-				Tdel = &*tempit;
 				items.erase(tempit);
-				delete Tdel;
 				haveDel = false;
 			}
 			//cout << items.size() << endl;

@@ -1,11 +1,11 @@
 #include"defineHead.h"
 #include"NameItems.h"
 
-#define time_Items 0.2
+#define time_Items 0.4
 class Items
 {
 public:
-	Items(string path,Vector2f pos,int ID); // need texture and position!!
+	Items(Texture,Vector2f pos,int ID); // need texture and position!!
 	void setPosition_Items(Vector2f Pos);
 	void DRAW(RenderWindow* window);
 	float xPos() { return this->item.getPosition().x;}

@@ -1,9 +1,9 @@
 #include "Items.h"
 //loadFromFile("texture\\map\\map1.jpg");
-Items::Items(string path,Vector2f pos,int ID)
+Items::Items(Texture texture,Vector2f pos,int ID)
 {
 	this->ID = ID;
-	this->texture.loadFromFile(path);
+	this->texture = texture;
 	this->REC.width = this->texture.getSize().x / 4;
 	this->REC.height = this->texture.getSize().y;
 	this->REC.top = 0;
@@ -41,8 +41,8 @@ int Items::getType()
 
 void Items::move()
 {
-	this->item.move(game_Speed, sin(forSin)*2);
-	forSin = (forSin == 0 ? 20 : forSin-0.1);
+	this->item.move(game_Speed-2, sin(forSin));
+	forSin -= 0.1;
 }
 
 void Items::update()

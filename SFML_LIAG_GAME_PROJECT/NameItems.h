@@ -23,3 +23,4 @@
 #define PAINTER_ID 7
 #define TEACHER_ID 8
 #define WRENCH_ID 9
+
